@@ -28,8 +28,13 @@ gem "kramdown-math-katex"
 
 # A JavaScript runtime for ruby that helps with running the katex gem above.
 gem "duktape"
+gem "webrick"
+
+#remote theme 적용 (for local test)
+
 
 group :jekyll_plugins do
+  gem "jekyll-remote-theme"
   gem "jekyll-default-layout"
   gem "jekyll-feed", "~> 0.12"
   gem "jekyll-optional-front-matter"

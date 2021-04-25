@@ -18,19 +18,20 @@ baseurl:               ''
 
 # Language of your content in 2-letter code, e.g.: en, de.
 # You may also provide a location, e.g.: en-us, de_AT.
-lang:                  en
+lang:                  ko
 
 # The title of your blog. Used in the sidebar and the browser tab.
-title:                 Stay Tuned for My Dream
+title:                 Loveysuby
 
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description:           
-  
+  Only what's seen is what the world is all about.
 
 # A shorter description for the sidebar.
 tagline:
-  Loveysuby`s private place for imaginator
+  Stay Tuned for My Dream
+  
 
 # A list of keywords for your blog
 keywords:              []
@@ -38,22 +39,22 @@ keywords:              []
 # A (square) logo for your site.
 # If provided, it will be shown at the top of the sidebar.
 # It also used by the `jekyll-seo-tag` plugin.
-logo:                  /assets/img/logo.png
+logo:                  /assets/img/icon.jpeg
 
 # This should be the same author as first entry in `_data/authors.yml`.
 author:
   # Used by `jekyll-feed`:
   name:                <Hyoseob> <Song>
-  email:               <crad_on25@naver.com>
+  email:               <crad_on25@khu.ac.kr>
 
 # Add links to the sidebar.
 menu:
-  - title:             Example
-    url:               /example/
-  - title:             Documentation
-    url:               /docs/
   - title:             About
     url:               /about/
+  - title:             Docs(test)
+    url:               /docs/
+  - title:             Example
+    url:               /example/
 
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
@@ -78,9 +79,9 @@ paginate_path:         /page-:num/
 
 # Theme
 # ---------------------------------------------------------------------------------------
-
-#theme: jekyll-theme-hydejack
 remote_theme: hydecorp/hydejack@v9.0.0-rc.6
+#theme: jekyll-theme-hydejack
+
 
 
 # Customizaton
@@ -88,12 +89,12 @@ remote_theme: hydecorp/hydejack@v9.0.0-rc.6
  
 # Sidebar image and theme color of the site.
 accent_image:          /assets/img/sidebar-bg.jpg
-accent_color:          rgb(79,177,186)
+#accent_color:          rgb(79,177,186)
 
 # This is used for the `theme-color` meta tag,
 # which changes the background color of the browser UI in certain browsers.
 # Defaults to `accent_color`.
-theme_color:           rgb(8,46,57)
+theme_color:           rgb(255,96,127)
 
 # The string encoding which fonts to fetch from Google Fonts.
 # See: <https://hydejack.com/docs/configuration/>
