@@ -18,19 +18,19 @@ baseurl:               ''
 
 # Language of your content in 2-letter code, e.g.: en, de.
 # You may also provide a location, e.g.: en-us, de_AT.
-lang:                  en
+lang:                  ko
 
 # The title of your blog. Used in the sidebar and the browser tab.
-title:                 Stay Tuned for My Dream
+title:                 Loveysuby
 
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
-description:           
+description:  Only what's seen is what the world is all about.         
   
 
 # A shorter description for the sidebar.
 tagline:
-  Loveysuby`s private place for imaginator
+  Stay Tuned for My Dream
 
 # A list of keywords for your blog
 keywords:              []
@@ -88,7 +88,7 @@ remote_theme: hydecorp/hydejack@v9.0.0-rc.6
  
 # Sidebar image and theme color of the site.
 accent_image:          /assets/img/sidebar-bg.jpg
-accent_color:          rgb(79,177,186)
+accent_color:          rgb(255,96,127)
 
 # This is used for the `theme-color` meta tag,
 # which changes the background color of the browser UI in certain browsers.
