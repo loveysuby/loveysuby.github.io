@@ -1,4 +1,10 @@
-# Ignore docs files
+### Jekyll ###
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+#Ignore docs files
 _gh_pages
 _site
 _site/*
@@ -42,6 +48,7 @@ validation-report.json
 node_modules
 package*.json
 vendor
+.bundle
 .sass-cache
 .jekyll-metadata
 .jekyll-cache
