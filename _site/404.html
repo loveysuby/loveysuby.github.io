@@ -43,7 +43,7 @@ Powered by Hydejack v9.1.4 <https://hydejack.com/>
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Loveysuby" />
 <script type="application/ld+json">
-{"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://0.0.0.0:4000/assets/img/icon.jpeg"},"name":"<Hyoseob> <Song>"},"description":"Only what’s seen is what the world is all about.","@type":"WebPage","headline":"Loveysuby","dateModified":"2021-04-24T09:56:41+00:00","url":"http://0.0.0.0:4000/404.html","author":{"@type":"Person","name":"<Hyoseob> <Song>"},"@context":"https://schema.org"}</script>
+{"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://0.0.0.0:4000/assets/img/icon.jpeg"},"name":"<Hyoseob> <Song>"},"headline":"Loveysuby","dateModified":"2021-04-24T09:56:41+00:00","description":"Only what’s seen is what the world is all about.","@type":"WebPage","url":"http://0.0.0.0:4000/404.html","author":{"@type":"Person","name":"<Hyoseob> <Song>"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -105,7 +105,7 @@ Powered by Hydejack v9.1.4 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2021-04-25T11:25:33+00:00',
+    INDEX_KEY: 'index--2021-04-26T11:38:27+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -137,69 +137,7 @@ html{--accent-color: rgb(255,96,127);--accent-color-faded: rgba(255,96,127,0.5);
 <!--<![endif]-->
 
 
-<!--
-Code used for embedding Gumroad on the Hydejack Site. 
-Left here for reference, feel free to delete.
--->
-<link rel="dns-prefetch" href="https://assets.gumroad.com">
-<script>window.GET_CLAPS_API = 'https://worker.getclaps.dev'</script>
-<script type="module">
-  const ppiData = window._ppiData = fetch('https://hydejack-ppi.qwtel.workers.dev', { mode: 'cors'}).then(res => res.json()).catch(() => ({}));
-  const promisify = f => x => new Promise(r => f(x).addEventListener('load', r));
-  const loadJS = promisify(window.loadJS);
-  {
-    let p;
-    document.querySelector('hy-push-state').addEventListener('load', () => {
-      const io = new IntersectionObserver(async (entries) => {
-        if (entries.some(x => x.isIntersecting)) {
-          p = p || loadJS('https://gumroad.com/js/gumroad-embed.js');
-          const [{ code }] = await Promise.all([ppiData, p]);
-          document.querySelectorAll('.gumroad-product-embed').forEach(el => { 
-            if (!el.dataset.gumroadParams) {
-              el.dataset.gumroadParams = 'offer_code=' + (code || 'qr0tw8m');
-            }
-          });
-          if (!window.GumroadEmbed) {
-            await new Promise(function check1(res) {
-              if ('createGumroadEmbed' in window) res(window.createGumroadEmbed());
-              else setTimeout(() => check1(res), 200);
-            });
-          }
-          await new Promise(function check2(res) {
-            if ('GumroadEmbed' in window) res(GumroadEmbed.reload());
-            else setTimeout(() => check2(res), 200);
-          });
-        }
-      }, { rootMargin: '1440px' });
-      document.querySelectorAll('.gumroad-product-embed').forEach(el => io.observe(el));
-    });
-  }
-  {
-    let p;
-    document.querySelector('hy-push-state').addEventListener('load', () => {
-      const io = new IntersectionObserver(async (entries) => {
-        if (entries.some(x => x.isIntersecting)) {
-          p = p || loadJS('https://gumroad.com/js/gumroad.js');
-          const [{ code }] = await Promise.all([ppiData, p]);
-          if (code) {
-            document.querySelectorAll('.gumroad-button').forEach(el => { 
-              if (!el.href.endsWith(code)) {
-                el.href = el.href + '/' + (code || 'qr0tw8m');
-              }
-            });
-          }
-          if (!window.GumroadOverlay) {
-            await new Promise(function check(res) {
-              if ('createGumroadOverlay' in window) res(window.createGumroadOverlay());
-              else setTimeout(() => check(res), 200);
-            });
-          }
-        }
-      }, { rootMargin: '300px' });
-      document.querySelectorAll('.gumroad-button').forEach(el => io.observe(el));
-    });
-  }
-</script>
+
 
 
 </head>
@@ -298,7 +236,7 @@ Left here for reference, feel free to delete.
 
 
 
-<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(8,46,57);background-image:url(/assets/img/sidebar-bg.jpg)"></div>
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(255,96,127);background-image:url(/assets/img/sidebar-bg.jpg)"></div>
 
     <div class="sidebar-sticky">
   <div class="sidebar-about">
@@ -439,72 +377,7 @@ Left here for reference, feel free to delete.
   
 
 <!--<![endif]-->
-  <!-- <script>
-  document.querySelector('hy-push-state').setAttribute('prefetch', '');
-
-  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
-    el.addEventListener('click', function (e) {
-      if (el.pathname === window.location.pathname) {
-        e.preventDefault();
-        e.stopPropagation();
-        document.querySelector('hy-drawer').close();
-      }
-    });
-  });
-</script> -->
-
-<!--
-Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
--->
-<script>
-  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
-    function e(e){
-      (console.error?console.error:console.log).call(console,e)
-    }
-
-    function t(e){
-      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
-    }
-
-    function r(e,t){
-      var r=e.substr(t,2);return parseInt(r,16)
-    }
-
-    function n(e,n){
-      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
-        var l=r(e,a)^c;
-        o+=String.fromCharCode(l)
-      }
-      return t(o)
-    }
-
-    var o="/cdn-cgi/l/email-protection#",
-        c=".__cf_email__",
-        a="data-cfemail",
-        l=document.createElement("div");
-
-    !function(){
-      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
-        try{
-          var c=t[r],a=c.href.indexOf(o);
-          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
-        }catch(t){
-          e(t)
-        }
-    }(),
-    function(){
-      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
-        try{
-          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
-          o.parentNode.replaceChild(i,o)
-        }catch(t){
-          e(t)
-        }
-    }()
-  });
-</script>
-
-
+  
 
 
 
