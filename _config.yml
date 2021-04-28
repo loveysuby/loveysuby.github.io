@@ -30,7 +30,7 @@ description:  Only what's seen is what the world is all about.
 
 # A shorter description for the sidebar.
 tagline:
-  Stay Tuned for My Dream
+  (test)Stay Tuned for My Dream
 
 # A list of keywords for your blog
 keywords:              []
@@ -48,7 +48,7 @@ author:
 
 # Add links to the sidebar.
 menu:
-  - title:             Example
+  - title:             Example(test)
     url:               /example/
   - title:             Documentation
     url:               /docs/
