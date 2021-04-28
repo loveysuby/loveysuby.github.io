@@ -5,6 +5,9 @@ vendor
 .jekyll-metadata
 .jekyll-cache
 *.gem
+Gemfile
+Gemfile.lock
+
 
 #<removed/js>
 #<removed/css>
