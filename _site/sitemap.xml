@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>https://loveysuby.github.io/example/2021-04-27-whats-new-in-hydejack-9-1/</loc>
+<loc>http://0.0.0.0:4000/example/2021-04-27-whats-new-in-hydejack-9-1/</loc>
 <lastmod>2021-04-28T14:58:51+00:00</lastmod>
 </url>
 <url>
-<loc>https://loveysuby.github.io/</loc>
-<lastmod>2021-04-30T13:51:53+00:00</lastmod>
-</url>
-<url>
-<loc>https://loveysuby.github.io/</loc>
-<lastmod>2021-04-28T14:53:57+00:00</lastmod>
-</url>
-<url>
-<loc>https://loveysuby.github.io/forms-by-example/</loc>
+<loc>http://0.0.0.0:4000/forms-by-example/</loc>
 <lastmod>2021-04-28T14:08:59+00:00</lastmod>
 </url>
 <url>
-<loc>https://loveysuby.github.io/</loc>
+<loc>http://0.0.0.0:4000/</loc>
 <lastmod>2021-04-26T11:45:01+00:00</lastmod>
 </url>
 <url>
-<loc>https://loveysuby.github.io/posts/</loc>
+<loc>http://0.0.0.0:4000/posts/</loc>
 <lastmod>2021-04-24T09:56:41+00:00</lastmod>
 </url>
 </urlset>

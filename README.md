@@ -4,8 +4,24 @@ Loveysuby`s first blog
 
 Coming soon~
 
+## 개발기록 (4월 26일)
+잘 진행되고 있는데, about.md 파일이 블로그 빌드 과정에서 실종된다.
 
-## 개발기록(4월 25일)
+메인 URL로 접속하면 이 파일이 최우선순위로 올라감
+markdown 파일과 root 디렉토리에서 겹칠 시 (ex. about.md)
+build 과정에서 오류 띄우고 html 먼저 띄움 (index.html이 default 값인듯.)
+
+#### ide 상에서 테스트 하기 
+  `bundle exec jekyll serve --host 0.0.0.0`  
+  + 이거 켜놓고 프로젝트-실행 포트-4000번 포트 URL 접속
+  + 빌드된 상태에서 실시간으로 파일 변경될 때마다 재빌드함.
+  
+#### TODO : about 메뉴 누를 때 /about/ 디렉토리로 접속하면
+1. IDE root의 about.md 띄우기  +  글 쓰는 방법 알아보고 써보기
+2. 카테고리, 태그 별로 쓰는 법 다 다른듯. 코드 창 구현 등 알아보기
+
+
+## 개발기록 (4월 25일)
 
 - 0425일자로 호스팅 완료! https://loveysuby.github.io
 
