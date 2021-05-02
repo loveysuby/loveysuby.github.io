@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Example Content III
+category: example
 description: >
   A page showing Hydejack-specific markdown content.
 image: 
