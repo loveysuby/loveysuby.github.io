@@ -1,4 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-05-02T11:55:35+00:00</updated><id>http://0.0.0.0:4000/feed.xml</id><title type="html">Loveysuby</title><subtitle>Only what's seen is what the world is all about.</subtitle><author><name>&lt;Hyoseob&gt; &lt;Song&gt;</name><email>&lt;crad_on25@naver.com&gt;</email></author><entry><title type="html">카테고리 별로 글을 나눠보았다!</title><link href="http://0.0.0.0:4000/example/2021-05-02-test-category/" rel="alternate" type="text/html" title="카테고리 별로 글을 나눠보았다!" /><published>2021-05-02T00:00:00+00:00</published><updated>2021-05-02T11:38:07+00:00</updated><id>http://0.0.0.0:4000/example/test-category</id><content type="html" xml:base="http://0.0.0.0:4000/example/2021-05-02-test-category/">&lt;ul id=&quot;markdown-toc&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-05-20T13:31:17+00:00</updated><id>http://0.0.0.0:4000/feed.xml</id><title type="html">Loveysuby</title><subtitle>Only what's seen is what the world is all about.</subtitle><author><name>&lt;Hyoseob&gt; &lt;Song&gt;</name><email>&lt;crad_on25@naver.com&gt;</email></author><entry><title type="html">호스팅 전에 남겨두는 개발기록</title><link href="http://0.0.0.0:4000/algorithm/2021-05-20-test-posting/" rel="alternate" type="text/html" title="호스팅 전에 남겨두는 개발기록" /><published>2021-05-20T00:00:00+00:00</published><updated>2021-05-20T13:29:34+00:00</updated><id>http://0.0.0.0:4000/algorithm/test-posting</id><content type="html" xml:base="http://0.0.0.0:4000/algorithm/2021-05-20-test-posting/">&lt;p&gt;우선… 테스트 성공 ! 굉장히 뿌듯하다&lt;/p&gt;
+
+&lt;p&gt;아래는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;github repository&lt;/code&gt;에 꾸준히 기록했던 개발 과정이다. 
+일기처럼 적어둔 다른 파일도 있는데, 글 쓰는 과정이 익숙해지면 아예 step by step로 남겨두고자 한다.&lt;/p&gt;
+
+&lt;h2 id=&quot;개발기록-4월-28일--5월-2일&quot;&gt;개발기록 (4월 28일 ~ 5월 2일)&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;컴퓨터 몇일 못 써서 독스 프린트해둔걸로 좀 읽어봤다. 해결한 궁금증은 아래와 같다.
+    &lt;ul&gt;
+      &lt;li&gt;왜 about.md가 인식이 안되는가?&lt;/li&gt;
+      &lt;li&gt;markdown 파일을 어떻게 post로 인식하는가?&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;앞으로 해결해야 할 목표는 아래와 같다.
+    &lt;ul&gt;
+      &lt;li&gt;code block, KaTex, table 등 부가기능 사용법&lt;/li&gt;
+      &lt;li&gt;SEO 등록&lt;/li&gt;
+      &lt;li&gt;google 검색엔진 등록, 사이트 소유권 확인&lt;/li&gt;
+      &lt;li&gt;사이드바 메뉴 확정짓기, tag 만 있는 페이지 구현하기&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fonts&lt;/code&gt; 설정하기, Google fonts 끌어다 써보기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;해결한-궁금증에-대한-기록&quot;&gt;해결한 궁금증에 대한 기록&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;두 질문은 post를 인식하는 방법을 알면 해결할 수 있는 같은 문제였다!&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;우선 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; 폴더에 카테고리 별로 폴더를 나누고, 그 안에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;md&lt;/code&gt; 파일을 넣어놨다.&lt;/li&gt;
+      &lt;li&gt;폴더만 쪼개논다고 되는게 아니라, md파일에서 layout을 작성할 때 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;category: xxx&lt;/code&gt; 형태로 어느 카테고리에 들어가야 하는지를 지정할 수 있음을 발견했다.&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;about.md&lt;/code&gt;의 경우는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/about/&lt;/code&gt; 디렉토리로 접근했을 때 바로 띄워질 수 있도록 구현해야 하는 문제가 있었는데, 이는 테마 제공처인 hydejack의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;starter-kit&lt;/code&gt;에서 답을 얻었다. &lt;br /&gt;
+  결론만 말하면, post 파일의 헤더 부분에서 특정 URL을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;permalink: /about/&lt;/code&gt; 처럼 달아주면 바로 연결이 된다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>&lt;Hyoseob&gt; &lt;Song&gt;</name><email>&lt;crad_on25@naver.com&gt;</email></author><category term="algorithm" /><summary type="html">우선… 테스트 성공 ! 굉장히 뿌듯하다</summary></entry><entry><title type="html">카테고리 별로 글을 나눠보았다!</title><link href="http://0.0.0.0:4000/example/2021-05-02-test-category/" rel="alternate" type="text/html" title="카테고리 별로 글을 나눠보았다!" /><published>2021-05-02T00:00:00+00:00</published><updated>2021-05-02T11:38:07+00:00</updated><id>http://0.0.0.0:4000/example/test-category</id><content type="html" xml:base="http://0.0.0.0:4000/example/2021-05-02-test-category/">&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#jekyll에-대해-알아낸-사실들&quot; id=&quot;markdown-toc-jekyll에-대해-알아낸-사실들&quot;&gt;jekyll에 대해 알아낸 사실들&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#adding-notes&quot; id=&quot;markdown-toc-adding-notes&quot;&gt;Adding notes&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#toc-추가하는-법&quot; id=&quot;markdown-toc-toc-추가하는-법&quot;&gt;toc 추가하는 법&lt;/a&gt;&lt;/li&gt;
@@ -64,7 +100,7 @@ To add a note with a specific label, add a &lt;code class=&quot;language-plainte
 순서 있는 toc
 &lt;span class=&quot;p&quot;&gt;1.&lt;/span&gt; this ordered seed list will be replaced by the toc
 {:toc}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>&lt;Hyoseob&gt; &lt;Song&gt;</name><email>&lt;crad_on25@naver.com&gt;</email></author><category term="example" /><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://0.0.0.0:4000/assets/img/blog/city.jpeg" /><media:content medium="image" url="http://0.0.0.0:4000/assets/img/blog/city.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">호스팅 전에 남겨두는 개발기록</title><link href="http://0.0.0.0:4000/algorithm/2021-05-01-test-in-algorithm/" rel="alternate" type="text/html" title="호스팅 전에 남겨두는 개발기록" /><published>2021-05-01T00:00:00+00:00</published><updated>2021-05-02T11:38:07+00:00</updated><id>http://0.0.0.0:4000/algorithm/test-in-algorithm</id><content type="html" xml:base="http://0.0.0.0:4000/algorithm/2021-05-01-test-in-algorithm/">&lt;p&gt;우선… 테스트 성공 ! 굉장히 뿌듯하다&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>&lt;Hyoseob&gt; &lt;Song&gt;</name><email>&lt;crad_on25@naver.com&gt;</email></author><category term="example" /><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://0.0.0.0:4000/assets/img/blog/city.jpeg" /><media:content medium="image" url="http://0.0.0.0:4000/assets/img/blog/city.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">호스팅 전에 남겨두는 개발기록</title><link href="http://0.0.0.0:4000/algorithm/2021-05-01-test-in-algorithm/" rel="alternate" type="text/html" title="호스팅 전에 남겨두는 개발기록" /><published>2021-05-01T00:00:00+00:00</published><updated>2021-05-02T11:56:17+00:00</updated><id>http://0.0.0.0:4000/algorithm/test-in-algorithm</id><content type="html" xml:base="http://0.0.0.0:4000/algorithm/2021-05-01-test-in-algorithm/">&lt;p&gt;우선… 테스트 성공 ! 굉장히 뿌듯하다&lt;/p&gt;
 
 &lt;p&gt;아래는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;github repository&lt;/code&gt;에 꾸준히 기록했던 개발 과정이다. 
 일기처럼 적어둔 다른 파일도 있는데, 글 쓰는 과정이 익숙해지면 아예 step by step로 남겨두고자 한다.&lt;/p&gt;
