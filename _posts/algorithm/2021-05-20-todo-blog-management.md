@@ -2,6 +2,7 @@
 layout: post
 title: 열정 열정 열정 ‼️‼️‼️
 category: algorithm
+image: /assets/img/blog/passionX3.png
 description: > 
   Todo for blog management
 sitemap: false
