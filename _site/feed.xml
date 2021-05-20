@@ -1,4 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-05-02T11:55:35+00:00</updated><id>http://0.0.0.0:4000/feed.xml</id><title type="html">Loveysuby</title><subtitle>Only what's seen is what the world is all about.</subtitle><author><name>&lt;Hyoseob&gt; &lt;Song&gt;</name><email>&lt;crad_on25@naver.com&gt;</email></author><entry><title type="html">카테고리 별로 글을 나눠보았다!</title><link href="http://0.0.0.0:4000/example/2021-05-02-test-category/" rel="alternate" type="text/html" title="카테고리 별로 글을 나눠보았다!" /><published>2021-05-02T00:00:00+00:00</published><updated>2021-05-02T11:38:07+00:00</updated><id>http://0.0.0.0:4000/example/test-category</id><content type="html" xml:base="http://0.0.0.0:4000/example/2021-05-02-test-category/">&lt;ul id=&quot;markdown-toc&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" hreflang="ko" /><updated>2021-05-20T14:18:32+00:00</updated><id>http://0.0.0.0:4000/feed.xml</id><title type="html">Loveysuby</title><subtitle>Only what's seen is what the world is all about.</subtitle><author><name>&lt;Hyoseob&gt; &lt;Song&gt;</name><email>&lt;crad_on25@naver.com&gt;</email></author><entry><title type="html">Test post on GoormIDE</title><link href="http://0.0.0.0:4000/algorithm/2021-05-20-test-posting/" rel="alternate" type="text/html" title="Test post on GoormIDE" /><published>2021-05-20T00:00:00+00:00</published><updated>2021-05-20T13:46:08+00:00</updated><id>http://0.0.0.0:4000/algorithm/test-posting</id><content type="html" xml:base="http://0.0.0.0:4000/algorithm/2021-05-20-test-posting/">&lt;p&gt;이 글이 잘 보인다면, goormIDE 환경에서 포스팅이 성공한 것이다.&lt;/p&gt;
+
+&lt;p&gt;최근 며칠간 사이버지식정보방에서 대학교 이메일 구글 계정이 로그인되지 않는 오류를 겪었다. 이는 메인 서버를 담당하는 국방부에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;google.com&lt;/code&gt;을 막았기 때문이라고,,, 정확히는 외주업체의 서버 오류였단다. 구글이 접속되지 않는 것은 Google Analytics 를 이용하는 사이트들 역시 접근이 불가능함을 통해 알게 되었다. (acmicpc.net)&lt;/p&gt;
+
+&lt;p&gt;그래서 다른 구름IDE 계정을 생성, 거기서 푸시를 해봤는데,,, 페이지가 빌드되지 않았다 !&lt;/p&gt;
+
+&lt;p&gt;무슨 이유에서인지는 현재까지는 모르겠다. remote된 저장소여서였을까? 컨테이너를 공유해서 전달하는 방법에 문제가 있었던 것일까. 일단 포스팅이 잘 올라가는지 부터 보고 나서 확인해봐야 할 부분이라고 생각한다.&lt;/p&gt;
+
+&lt;p&gt;하여튼 이 글이 보이면 잘 되는 거 맞다는 뜻.&lt;/p&gt;</content><author><name>&lt;Hyoseob&gt; &lt;Song&gt;</name><email>&lt;crad_on25@naver.com&gt;</email></author><category term="algorithm" /><summary type="html">이 글이 잘 보인다면, goormIDE 환경에서 포스팅이 성공한 것이다.</summary></entry><entry><title type="html">열정 열정 열정 ‼️‼️‼️</title><link href="http://0.0.0.0:4000/algorithm/2021-05-20-todo-blog-management/" rel="alternate" type="text/html" title="열정 열정 열정 ‼️‼️‼️" /><published>2021-05-20T00:00:00+00:00</published><updated>2021-05-20T14:18:32+00:00</updated><id>http://0.0.0.0:4000/algorithm/todo-blog-management</id><content type="html" xml:base="http://0.0.0.0:4000/algorithm/2021-05-20-todo-blog-management/">&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#땅-팠더니-진짜-500원-나온-느낌&quot; id=&quot;markdown-toc-땅-팠더니-진짜-500원-나온-느낌&quot;&gt;땅 팠더니 진짜 500원 나온 느낌&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#todo-list-for-blog-management&quot; id=&quot;markdown-toc-todo-list-for-blog-management&quot;&gt;Todo list for blog management&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;땅-팠더니-진짜-500원-나온-느낌&quot;&gt;땅 팠더니 진짜 500원 나온 느낌&lt;/h3&gt;
+&lt;p&gt;글 잘 올라갔다! “나 원래 잘 됐어” 식으로 어떠한 막힘도 없이 올라간다.
+대체 왜였을까,,, 어이없게 빌드도 잘 되고, github action도 정상적으로 기능한다. 
+그냥 이 아이디로 계속 관리하면 되는 거 아니냐? 라고 혹자는 물어볼 수도 있다.(아직 아무도 관심없는 공간이지만) 누구도 답을 알려주지 않을 것 같아서 자답하자면, 두 가지 이유를 말할 수 있다.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;작성 환경에 큰 제약이 있는 goormIDE에서의 유지보수 어려움&lt;/li&gt;
+  &lt;li&gt;이 문제를 해결하지 못하면 다른 문제가 발생했을 때 연쇄적인 오류를 낳을 수 있음&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;요 정도가 있겠다. 우선 휴가 전까지 사지방에서 구글이 안 막히기를 빌면서 본 페이지를 관리해보자. 앞으로 해야될 일은 아래와 같다.&lt;/p&gt;
+
+&lt;h3 id=&quot;todo-list-for-blog-management&quot;&gt;Todo list for blog management&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;example로 들어가면 아카이브가 뜨도록 해뒀는데, 지금 테스트 과정에서 올린 글들이 여기 링크되지 않는다.. markdown 파일을 만들 때 맨 위에 작성하는 레이아웃 옵션에서 문제가 있을 것 같다. 레이아웃에 관한 문서를 찾아보며 해결하자.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_site&lt;/code&gt; 폴더는 빌드가 완성된 폴더인데, 이거 용량이 꽤 크고 어차피 github pages를 활용하는 거면 굳이 있을 필요가 없는 것이 논리상 맞다. 간혹 에러를 터트리는 이유라고 생각된 부분도 있고, 포함시켜서 올려도 빌드 과정에서 무시되는 것 같아 올리고는 있으나, 따로 branch를 만들어서 저걸 빼고 빌드해보는 테스트는 꼭 필요하다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;아래는 앞으로 블로그를 만든 이래 해두면 좋을 일들 남겨놨다. &lt;del&gt;어차피 다 해야 됨&lt;/del&gt;&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;애써 만든 페이지에서 뭘 쓸건가? / 카테고리 간소화하기 (tag 활용)&lt;/li&gt;
+      &lt;li&gt;About page update&lt;/li&gt;
+      &lt;li&gt;disqus 달아보기 , clap icon 지우기&lt;/li&gt;
+      &lt;li&gt;Google page 소유권 등록, 광고 알아보기 + (당분간은 아 무 도 안 볼 것 같으니..)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>&lt;Hyoseob&gt; &lt;Song&gt;</name><email>&lt;crad_on25@naver.com&gt;</email></author><category term="algorithm" /></entry><entry><title type="html">5월 14일</title><link href="http://0.0.0.0:4000/algorithm/2021-05-14-trouble-shooting-log/" rel="alternate" type="text/html" title="5월 14일" /><published>2021-05-14T00:00:00+00:00</published><updated>2021-05-20T13:46:08+00:00</updated><id>http://0.0.0.0:4000/algorithm/trouble-shooting-log</id><content type="html" xml:base="http://0.0.0.0:4000/algorithm/2021-05-14-trouble-shooting-log/">&lt;p&gt;이전 포스팅에서 이런 부분이 있었다.
+	&amp;gt; 결론만 말하면, post 파일의 헤더 부분에서 특정 URL을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;permalink: /about/&lt;/code&gt; 처럼 달아주면 바로 연결이 된다.&lt;/p&gt;
+
+&lt;p&gt;이를 해결하기 위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts/about/about.md&lt;/code&gt; 식으로 파일을 넣어 놨는데, 인식이 안 되었다.&lt;/p&gt;
+
+&lt;p&gt;현재까지 파악한 바에 따르면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;permalink&lt;/code&gt; 옵션은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;markdown&lt;/code&gt; 파일이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;root directory&lt;/code&gt;에 있어야 인식되는 것 같다.&lt;/p&gt;</content><author><name>&lt;Hyoseob&gt; &lt;Song&gt;</name><email>&lt;crad_on25@naver.com&gt;</email></author><category term="algorithm" /><summary type="html">이전 포스팅에서 이런 부분이 있었다. &amp;gt; 결론만 말하면, post 파일의 헤더 부분에서 특정 URL을 permalink: /about/ 처럼 달아주면 바로 연결이 된다.</summary></entry><entry><title type="html">카테고리 별로 글을 나눠보았다!</title><link href="http://0.0.0.0:4000/example/2021-05-02-test-category/" rel="alternate" type="text/html" title="카테고리 별로 글을 나눠보았다!" /><published>2021-05-02T00:00:00+00:00</published><updated>2021-05-02T11:38:07+00:00</updated><id>http://0.0.0.0:4000/example/test-category</id><content type="html" xml:base="http://0.0.0.0:4000/example/2021-05-02-test-category/">&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#jekyll에-대해-알아낸-사실들&quot; id=&quot;markdown-toc-jekyll에-대해-알아낸-사실들&quot;&gt;jekyll에 대해 알아낸 사실들&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#adding-notes&quot; id=&quot;markdown-toc-adding-notes&quot;&gt;Adding notes&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#toc-추가하는-법&quot; id=&quot;markdown-toc-toc-추가하는-법&quot;&gt;toc 추가하는 법&lt;/a&gt;&lt;/li&gt;
@@ -64,7 +111,7 @@ To add a note with a specific label, add a &lt;code class=&quot;language-plainte
 순서 있는 toc
 &lt;span class=&quot;p&quot;&gt;1.&lt;/span&gt; this ordered seed list will be replaced by the toc
 {:toc}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>&lt;Hyoseob&gt; &lt;Song&gt;</name><email>&lt;crad_on25@naver.com&gt;</email></author><category term="example" /><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://0.0.0.0:4000/assets/img/blog/city.jpeg" /><media:content medium="image" url="http://0.0.0.0:4000/assets/img/blog/city.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">호스팅 전에 남겨두는 개발기록</title><link href="http://0.0.0.0:4000/algorithm/2021-05-01-test-in-algorithm/" rel="alternate" type="text/html" title="호스팅 전에 남겨두는 개발기록" /><published>2021-05-01T00:00:00+00:00</published><updated>2021-05-02T11:38:07+00:00</updated><id>http://0.0.0.0:4000/algorithm/test-in-algorithm</id><content type="html" xml:base="http://0.0.0.0:4000/algorithm/2021-05-01-test-in-algorithm/">&lt;p&gt;우선… 테스트 성공 ! 굉장히 뿌듯하다&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>&lt;Hyoseob&gt; &lt;Song&gt;</name><email>&lt;crad_on25@naver.com&gt;</email></author><category term="example" /><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://0.0.0.0:4000/assets/img/blog/city.jpeg" /><media:content medium="image" url="http://0.0.0.0:4000/assets/img/blog/city.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">호스팅 전에 남겨두는 개발기록</title><link href="http://0.0.0.0:4000/algorithm/2021-05-01-test-in-algorithm/" rel="alternate" type="text/html" title="호스팅 전에 남겨두는 개발기록" /><published>2021-05-01T00:00:00+00:00</published><updated>2021-05-02T11:56:17+00:00</updated><id>http://0.0.0.0:4000/algorithm/test-in-algorithm</id><content type="html" xml:base="http://0.0.0.0:4000/algorithm/2021-05-01-test-in-algorithm/">&lt;p&gt;우선… 테스트 성공 ! 굉장히 뿌듯하다&lt;/p&gt;
 
 &lt;p&gt;아래는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;github repository&lt;/code&gt;에 꾸준히 기록했던 개발 과정이다. 
 일기처럼 적어둔 다른 파일도 있는데, 글 쓰는 과정이 익숙해지면 아예 step by step로 남겨두고자 한다.&lt;/p&gt;
