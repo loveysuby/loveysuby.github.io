@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Test post on GoormIDE
+title: Test post on GoormIDE 
 category: algorithm
 description: >
   algo-test
