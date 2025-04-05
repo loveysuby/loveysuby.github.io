@@ -26,7 +26,7 @@ jobs:
           node-version: 22
       - name: Install Dependencies
         run: npm ci
-        - name: Fetch Quartz Theme
+      - name: Fetch Quartz Theme
         run: curl -s -S https://raw.githubusercontent.com/saberzero1/quartz-themes/master/action.sh | bash -s -- adrenaline
       - name: Build Quartz
         run: npx quartz build
