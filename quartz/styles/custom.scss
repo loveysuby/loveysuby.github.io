@@ -1,3 +1,71 @@
 @use "./base.scss";
 
 // put your custom CSS here!
+
+// 헤더 우측 정렬
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header nav {
+  margin-left: auto;
+}
+
+// 메인 페이지 All Posts 스타일
+.center .recent-notes {
+  .recent-ul .recent-li .section > .desc > h3 {
+    font-size: 1.15rem;
+    
+    a {
+      font-weight: 600;
+    }
+  }
+}
+
+// 왼쪽 사이드바의 Recent Notes 스타일
+.left .recent-notes {
+  // 제목 폰트 크기 줄이기
+  .recent-ul .recent-li .section > .desc > h3 {
+    font-size: 0.9rem;
+    margin: 0;
+    
+    a {
+      font-weight: 500;
+    }
+  }
+
+  // 날짜 숨기기
+  .recent-ul .recent-li .section > .meta {
+    display: none;
+  }
+
+  // 리스트 아이템 간격 줄이기
+  .recent-ul > li {
+    margin: 0.5rem 0;
+  }
+}
+
+// 오른쪽 사이드바의 Recent Notes 스타일
+.right .recent-notes {
+  // 제목 폰트 크기 더 작게
+  .recent-ul .recent-li .section > .desc > h3 {
+    font-size: 0.85rem;
+    margin: 0;
+    
+    a {
+      font-weight: 500;
+    }
+  }
+
+  // 날짜 숨기기
+  .recent-ul .recent-li .section > .meta {
+    display: none;
+  }
+
+  // 리스트 아이템 간격 줄이기
+  .recent-ul > li {
+    margin: 0.5rem 0;
+  }
+}

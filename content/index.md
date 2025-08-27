@@ -1,11 +1,6 @@
 ---
-title: Hi there
+title: loveysuby
 created: 2025-04-06
-summary: Where are we?
+summary: Software Engineer Blog
 draft: false
 ---
-Welcome.  
-
-This is `loveysuby` `s blog.
-
- 
