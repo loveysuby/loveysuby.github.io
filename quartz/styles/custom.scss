@@ -1,71 +1,692 @@
 @use "./base.scss";
+@use "./variables.scss" as *;
 
-// put your custom CSS here!
+:root:root {
+  --bodyFont:
+    "Inter", "Noto Sans KR", "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", sans-serif;
+  --headerFont: var(--bodyFont);
+  --codeFont: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 
-// 헤더 우측 정렬
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  --radius: 10px;
+  --radiusLg: 14px;
 }
 
-header nav {
-  margin-left: auto;
+body {
+  font-size: 1rem;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-// 메인 페이지 All Posts 스타일
+article p,
+article li,
+article tbody {
+  line-height: 1.8;
+}
+
+article p {
+  margin: 1.15rem 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  font-weight: 650;
+}
+
+.page article > h1 {
+  font-size: 2rem;
+}
+
+article {
+  & > h2 {
+    font-size: 1.5rem;
+    margin-top: 2.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--lightgray);
+  }
+
+  & > h3 {
+    font-size: 1.2rem;
+    margin-top: 2.25rem;
+  }
+
+  & > :is(h1, h2, h3, h4, h5, h6)[id] > a[href^="#"] {
+    color: var(--secondary);
+    font-size: 0.8em;
+    font-weight: 400;
+  }
+}
+
+article a {
+  font-weight: 500;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--secondary) 35%, transparent);
+  transition:
+    color 0.15s ease,
+    text-decoration-color 0.15s ease;
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+article a.internal:not(.tag-link) {
+  background-color: transparent;
+  padding: 0;
+  text-decoration: underline;
+}
+
+article a.external {
+  text-decoration: underline;
+}
+
+.page-header {
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--lightgray);
+  }
+
+  header nav {
+    margin-left: auto;
+  }
+}
+
+header nav ul {
+  gap: 0.25rem;
+}
+
+header nav ul li a {
+  display: inline-block;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gray);
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+
+  &:hover {
+    color: var(--dark) !important;
+    background-color: var(--highlight);
+  }
+}
+
+.page-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0;
+
+  & a {
+    color: var(--dark);
+    background-color: transparent;
+
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 0.5rem;
+      height: 0.5rem;
+      margin-right: 0.5rem;
+      border-radius: 50%;
+      background: var(--secondary);
+      vertical-align: middle;
+      transform: translateY(-0.1em);
+    }
+  }
+}
+
 .center .recent-notes {
-  .recent-ul .recent-li .section > .desc > h3 {
-    font-size: 1.15rem;
-    
-    a {
-      font-weight: 600;
-    }
+  & > h3 {
+    font-size: 0.75rem;
+    font-family: var(--codeFont);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gray);
+    margin: 2rem 0 0 0;
   }
-}
 
-// 왼쪽 사이드바의 Recent Notes 스타일
-.left .recent-notes {
-  // 제목 폰트 크기 줄이기
-  .recent-ul .recent-li .section > .desc > h3 {
-    font-size: 0.9rem;
+  & > ul.recent-ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+
+  & > ul.recent-ul > li.recent-li {
+    position: relative;
     margin: 0;
-    
-    a {
-      font-weight: 500;
+    padding: 1.15rem 1.4rem;
+    border: 1px solid var(--lightgray);
+    border-radius: var(--radiusLg);
+    background-color: var(--surface);
+    box-shadow: var(--shadowSm);
+    overflow: hidden;
+    transition:
+      border-color 0.18s ease,
+      box-shadow 0.18s ease,
+      transform 0.18s ease;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--secondary);
+      transform: scaleY(0);
+      transform-origin: center;
+      transition: transform 0.18s ease;
     }
-  }
 
-  // 날짜 숨기기
-  .recent-ul .recent-li .section > .meta {
-    display: none;
-  }
+    &:hover {
+      border-color: color-mix(in srgb, var(--secondary) 45%, var(--lightgray));
+      box-shadow: var(--shadowMd);
+      transform: translateY(-2px);
 
-  // 리스트 아이템 간격 줄이기
-  .recent-ul > li {
-    margin: 0.5rem 0;
+      &::before {
+        transform: scaleY(1);
+      }
+    }
+
+    .section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .section > .meta {
+      order: -1;
+      margin: 0;
+      opacity: 1;
+      font-family: var(--codeFont);
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: var(--gray);
+    }
+
+    .section > .desc > h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0;
+      line-height: 1.45;
+
+      & > a {
+        color: var(--dark);
+        background-color: transparent;
+        text-decoration: none;
+        transition: color 0.15s ease;
+
+        &::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+        }
+      }
+    }
+
+    &:hover .section > .desc > h3 > a {
+      color: var(--secondary) !important;
+    }
+
+    .section > .tags {
+      position: relative;
+      z-index: 1;
+      margin: 0.2rem 0 0 0;
+      justify-content: flex-start;
+      gap: 0.35rem;
+    }
   }
 }
 
-// 오른쪽 사이드바의 Recent Notes 스타일
+.popover-hint > .article-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+  margin: 1.5rem 0 0.75rem 0;
+
+  @media all and ($mobile) {
+    font-size: 1.75rem;
+  }
+}
+
+.content-meta {
+  font-family: var(--codeFont);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--gray);
+}
+
+.breadcrumb-container {
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin: 1.5rem 0 0 0;
+
+  & a {
+    color: var(--gray);
+    font-weight: 400;
+    background-color: transparent;
+  }
+}
+
+a.internal.tag-link {
+  display: inline-block;
+  font-family: var(--codeFont);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--secondary);
+  background-color: var(--highlight);
+  border: 1px solid color-mix(in srgb, var(--secondary) 18%, transparent);
+  border-radius: 999px;
+  padding: 0.22rem 0.6rem;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+
+  &:hover {
+    color: var(--secondary) !important;
+    background-color: color-mix(in srgb, var(--secondary) 16%, transparent);
+    border-color: color-mix(in srgb, var(--secondary) 40%, transparent);
+  }
+}
+
+.popover-hint > .tags {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--lightgray);
+}
+
+code {
+  font-size: 0.85em;
+  font-weight: 500;
+  color: var(--dark);
+  background: var(--codeBg);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  padding: 0.12em 0.38em;
+}
+
+pre {
+  background: var(--codeBg);
+  border: 1px solid var(--lightgray);
+  border-radius: var(--radius);
+  margin: 1.5rem 0;
+  padding: 0.85rem 0;
+  line-height: 1.7;
+  box-shadow: var(--shadowSm);
+
+  & > code {
+    background: none;
+    border: none;
+    padding: 0.1rem 0;
+    font-size: 0.83rem;
+    font-weight: 400;
+
+    & > [data-line] {
+      padding: 0 1.1rem;
+
+      &::before {
+        color: var(--codeLineNum);
+        font-variant-numeric: tabular-nums;
+      }
+
+      &[data-highlighted-line] {
+        background-color: var(--highlight);
+        border-left-color: var(--secondary);
+      }
+    }
+  }
+}
+
+pre[data-language]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.45rem;
+  right: 0.7rem;
+  font-family: var(--codeFont);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--codeLineNum);
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+pre:hover[data-language]::before {
+  opacity: 0;
+}
+
+figure[data-rehype-pretty-code-figure]:has(> [data-rehype-pretty-code-title]) > pre::before {
+  display: none;
+}
+
+figure[data-rehype-pretty-code-figure] {
+  margin: 1.5rem 0;
+
+  & > [data-rehype-pretty-code-title] {
+    box-sizing: border-box;
+    width: 100%;
+    font-family: var(--codeFont);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--gray);
+    background: var(--codeTitleBg);
+    border: 1px solid var(--lightgray);
+    border-bottom: none;
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding: 0.5rem 1.1rem;
+    margin-bottom: 0;
+  }
+
+  & > pre {
+    padding: 0.85rem 0;
+    margin: 0;
+  }
+
+  & > [data-rehype-pretty-code-title] + pre {
+    border-radius: 0 0 var(--radius) var(--radius);
+    box-shadow: none;
+  }
+}
+
+.clipboard-button {
+  opacity: 0;
+  border-radius: 6px;
+  border: 1px solid var(--lightgray);
+  background: var(--codeTitleBg);
+  transition:
+    opacity 0.15s ease,
+    border-color 0.15s ease;
+
+  &:hover {
+    border-color: var(--secondary);
+  }
+}
+
+pre:hover > .clipboard-button,
+.clipboard-button:focus-visible {
+  opacity: 1;
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: 0.6rem 0 0.6rem 1.25rem;
+  border-left: 3px solid var(--secondary);
+  color: var(--gray);
+  font-style: normal;
+
+  & p {
+    margin: 0.4rem 0;
+  }
+}
+
+.callout {
+  border-radius: var(--radius);
+  box-shadow: var(--shadowSm);
+}
+
+.table-container > table {
+  margin: 1.5rem 0;
+  width: 100%;
+  font-size: 0.92rem;
+  border: 1px solid var(--lightgray);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+th {
+  font-family: var(--headerFont);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gray);
+  background: var(--codeBg);
+  border-bottom: 1px solid var(--lightgray);
+}
+
+img {
+  border-radius: var(--radius);
+  border: 1px solid var(--lightgray);
+}
+
+hr {
+  margin: 3rem auto;
+  width: 100%;
+}
+
+.sidebar {
+  & .recent-notes > h3,
+  & .backlinks > h3,
+  & .graph > h3,
+  & .topics > h3,
+  & button.toc-header > h3,
+  & button.desktop-explorer h2 {
+    font-family: var(--codeFont);
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--darkgray);
+    margin: 0 0 0.6rem 0;
+  }
+}
+
+.search .search-button {
+  border-radius: 8px;
+  border: 1px solid var(--lightgray);
+  background: var(--surface);
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--secondary) 45%, var(--lightgray));
+  }
+
+  & p {
+    font-size: 0.85rem;
+    color: var(--gray);
+  }
+}
+
+.darkmode {
+  & svg {
+    opacity: 0.7;
+    transition: opacity 0.15s ease;
+  }
+
+  &:hover svg {
+    opacity: 1;
+  }
+}
+
+.explorer-content ul li > a {
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.toc {
+  & button.toc-header {
+    width: 100%;
+  }
+
+  & ul.toc-content {
+    margin-top: 0.7rem;
+
+    & > li {
+      font-size: 0.875rem;
+      line-height: 1.45;
+      margin: 0;
+      padding: 0.28rem 0 0.28rem 0.7rem;
+      border-left: 2px solid var(--lightgray);
+      transition: border-color 0.15s ease;
+
+      & > a {
+        color: var(--darkgray);
+        font-weight: 450;
+        opacity: 0.85;
+        transition:
+          color 0.15s ease,
+          opacity 0.15s ease;
+      }
+
+      &:hover > a {
+        opacity: 1;
+        color: var(--secondary) !important;
+      }
+
+      &.in-view {
+        border-left-color: var(--secondary);
+
+        & > a {
+          color: var(--secondary);
+          font-weight: 600;
+          opacity: 1;
+        }
+      }
+
+      &.depth-1 {
+        padding-left: 1.4rem;
+      }
+
+      &.depth-2 {
+        padding-left: 2.1rem;
+      }
+    }
+  }
+}
+
+.left .recent-notes,
 .right .recent-notes {
-  // 제목 폰트 크기 더 작게
   .recent-ul .recent-li .section > .desc > h3 {
     font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.5;
     margin: 0;
-    
-    a {
-      font-weight: 500;
+
+    & > a {
+      color: var(--darkgray);
+      background-color: transparent;
     }
   }
 
-  // 날짜 숨기기
   .recent-ul .recent-li .section > .meta {
     display: none;
   }
 
-  // 리스트 아이템 간격 줄이기
   .recent-ul > li {
-    margin: 0.5rem 0;
+    margin: 0.65rem 0;
+  }
+}
+
+.backlinks .overflow > li {
+  font-size: 0.85rem;
+}
+
+footer {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--lightgray);
+  opacity: 1;
+  font-size: 0.82rem;
+  color: var(--gray);
+
+  & p {
+    color: var(--gray);
+    font-size: 0.82rem;
+  }
+
+  & ul {
+    margin-top: 0.5rem;
+    gap: 1.25rem;
+  }
+
+  & ul li a {
+    color: var(--gray);
+    font-weight: 500;
+    background-color: transparent;
+    transition: color 0.15s ease;
+  }
+}
+
+.page:has(> #quartz-body:not(:has(.sidebar.right > *))) {
+  @media all and ($desktop) {
+    max-width: calc(#{$sidePanelWidth} + 52rem + 4rem);
+  }
+}
+
+.page > #quartz-body:not(:has(.sidebar.right > *)) {
+  @media all and ($desktop) {
+    box-sizing: border-box;
+    padding-right: 4rem;
+    grid-template-columns: #{$sidePanelWidth} minmax(0, 1fr);
+    grid-template-areas:
+      "grid-sidebar-left grid-header"
+      "grid-sidebar-left grid-center"
+      "grid-sidebar-left grid-footer";
+
+    & > .sidebar.right {
+      display: none;
+    }
+  }
+}
+
+::selection {
+  background: color-mix(in srgb, var(--secondary) 25%, transparent);
+}
+
+.navigation-progress {
+  height: 2px;
+  background: var(--secondary);
+}
+
+.popover .popover-inner {
+  border-radius: var(--radiusLg);
+  border: 1px solid var(--lightgray);
+  box-shadow: var(--shadowMd);
+  background: var(--surface);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--lightgray) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--lightgray);
+  border-radius: 999px;
+
+  &:hover {
+    background-color: var(--gray);
   }
 }

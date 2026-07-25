@@ -17,7 +17,7 @@ After upgrading to LangChain 1.0.1, structured output in our service stopped wor
 output_format = UserPreference(BaseModel):
     id: UUID = Field(description="songhyoseop")
     company: Optional[str] = Field(default="Home")
-    
+
 llm_with_structure = self.llm.with_structured_output(output_format)
 chain = prompt | llm_with_structure
 
@@ -41,16 +41,16 @@ class ContactInfo(BaseModel):
     name: str
     email: str
     phone: str
-    
+
 def __init__(self, llm: Union[ChatOpenAI, AzureChatOpenAI]):
     agent = create_agent(
         model="gpt-4",
         response_format=ProviderStrategy(ContactInfo)
     )
-    
+
 result = agent.invoke({
     "messages": [{
-        "role": "user", 
+        "role": "user",
         "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"
     }]
 })
@@ -185,4 +185,3 @@ result: AgentResponse = agent.invoke({"messages": [...]})
 ## Conclusion
 
 The new `ProviderStrategy` approach provides a more robust and consistent way to handle structured outputs. By understanding its internal workings, you can better debug issues and leverage its full capabilities in production systems.
-

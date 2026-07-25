@@ -23,6 +23,11 @@ import Comments from "./Comments"
 import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
 import DesktopNav from "./DesktopNav"
+import Topics from "./Topics"
+import ThemeTokens from "./ThemeTokens"
+import Collapsible from "./Collapsible"
+import RelatedPosts from "./RelatedPosts"
+import BackToList from "./BackToList"
 
 export {
   ArticleTitle,
@@ -50,4 +55,9 @@ export {
   Flex,
   ConditionalRender,
   DesktopNav,
+  Topics,
+  ThemeTokens,
+  Collapsible,
+  RelatedPosts,
+  BackToList,
 }

@@ -26,8 +26,8 @@ npm install package-name
 ```typescript
 // 코드 예시
 const example = () => {
-  console.log("Hello");
-};
+  console.log("Hello")
+}
 ```
 
 ### 주요 포인트
@@ -46,8 +46,8 @@ const example = () => {
 
 ### 문제 1
 
-**증상**: 
-**해결**: 
+**증상**:
+**해결**:
 
 ## 참고 자료
 

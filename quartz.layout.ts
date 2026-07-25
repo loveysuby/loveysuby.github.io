@@ -1,25 +1,29 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 
+const isPost = (page: { slug?: string }) => {
+  const slug = page.slug ?? ""
+  return !slug.endsWith("index") && slug !== "about"
+}
+
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [
     Component.DesktopNav({
       links: [
-        { text: "MLSys", link: "/tags/mlsys" },
-        { text: "AI", link: "/tags/ai" },
-        { text: "Cloud", link: "/tags/cloud" },
-        { text: "Blog", link: "/tags/blog" },
+        { text: "Post", link: "/post/" },
+        { text: "Tag", link: "/tags/" },
         { text: "About", link: "/about" },
       ],
     }),
+    Component.ThemeTokens(),
   ],
   afterBody: [],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/loveysuby",
-      LinkedIn: "https://www.linkedin.com/in/hyoseop-song/"
+      LinkedIn: "https://www.linkedin.com/in/hyoseop-song/",
     },
   }),
 }
@@ -47,8 +51,8 @@ export const defaultContentPageLayout: PageLayout = {
       component: Component.RecentNotes({
         title: "All Posts",
         limit: 100,
-        showTags: false,
-        filter: (page) => page.slug !== "index",
+        showTags: true,
+        filter: isPost,
       }),
       condition: (page) => page.fileData.slug === "index",
     }),
@@ -65,23 +69,32 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer({
-      filterFn: (node) => node.slugSegment !== "tags" && node.slugSegment !== "about",
-    }),
-    Component.Spacer(),
     Component.TableOfContents(),
+    Component.Spacer(),
+    Component.ConditionalRender({
+      component: Component.Collapsible({
+        title: "Topics",
+        open: false,
+        component: Component.Topics(),
+      }),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.ConditionalRender({
+      component: Component.Topics(),
+      condition: (page) => page.fileData.slug === "index",
+    }),
   ],
   right: [
-    Component.Graph(),
-    Component.Backlinks(),
-    Component.DesktopOnly(Component.Spacer()),
-    Component.DesktopOnly(Component.RecentNotes({
-      title: "Recent Posts",
-      limit: 5,
-      showTags: false,
-    })),
+    Component.ConditionalRender({
+      component: Component.Graph(),
+      condition: (page) => page.fileData.slug === "index",
+    }),
   ],
   afterBody: [
+    Component.ConditionalRender({
+      component: Component.RelatedPosts(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
     Component.ConditionalRender({
       component: Component.Comments({
         provider: "giscus",
@@ -96,6 +109,10 @@ export const defaultContentPageLayout: PageLayout = {
           inputPosition: "bottom",
         },
       }),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.ConditionalRender({
+      component: Component.BackToList(),
       condition: (page) => page.fileData.slug !== "index",
     }),
   ],
@@ -116,9 +133,7 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer({
-      filterFn: (node) => node.slugSegment !== "tags" && node.slugSegment !== "about",
-    }),
+    Component.Topics(),
   ],
   right: [],
 }
