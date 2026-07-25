@@ -28,6 +28,7 @@ import ThemeTokens from "./ThemeTokens"
 import Collapsible from "./Collapsible"
 import RelatedPosts from "./RelatedPosts"
 import BackToList from "./BackToList"
+import PostCards from "./PostCards"
 
 export {
   ArticleTitle,
@@ -60,4 +61,5 @@ export {
   Collapsible,
   RelatedPosts,
   BackToList,
+  PostCards,
 }

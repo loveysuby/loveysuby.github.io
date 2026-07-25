@@ -48,10 +48,8 @@ export const defaultContentPageLayout: PageLayout = {
       condition: (page) => page.fileData.slug !== "index",
     }),
     Component.ConditionalRender({
-      component: Component.RecentNotes({
+      component: Component.PostCards({
         title: "All Posts",
-        limit: 100,
-        showTags: true,
         filter: isPost,
       }),
       condition: (page) => page.fileData.slug === "index",
@@ -70,7 +68,10 @@ export const defaultContentPageLayout: PageLayout = {
       ],
     }),
     Component.TableOfContents(),
-    Component.Spacer(),
+    Component.ConditionalRender({
+      component: Component.Spacer(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
     Component.ConditionalRender({
       component: Component.Collapsible({
         title: "Topics",
@@ -86,7 +87,9 @@ export const defaultContentPageLayout: PageLayout = {
   ],
   right: [
     Component.ConditionalRender({
-      component: Component.Graph(),
+      component: Component.Graph({
+        localGraph: { depth: -1, scale: 1.0, showTags: true },
+      }),
       condition: (page) => page.fileData.slug === "index",
     }),
   ],
