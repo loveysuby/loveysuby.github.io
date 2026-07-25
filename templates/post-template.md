@@ -5,7 +5,8 @@ tags:
   - tag1
   - tag2
 draft: false
-summary: 글 요약을 입력하세요
+description: 글 요약을 입력하세요
+pinned: false
 ---
 
 ## 개요

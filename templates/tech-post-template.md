@@ -5,7 +5,8 @@ tags:
   - tech
   - programming
 draft: false
-summary: 기술 관련 내용 요약
+description: 기술 관련 내용 요약
+pinned: false
 ---
 
 ## 문제 상황

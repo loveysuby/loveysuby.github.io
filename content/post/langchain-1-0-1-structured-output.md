@@ -6,7 +6,7 @@ tags:
   - langchain
   - agent
 draft: false
-summary: Fixing structured output issues in LangChain 1.0.1 using ProviderStrategy
+description: Fixing structured output issues in LangChain 1.0.1 using ProviderStrategy
 ---
 
 ## Problem

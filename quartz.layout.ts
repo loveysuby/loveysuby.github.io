@@ -1,6 +1,8 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 
+const isFolderIndex = (slug: string) => slug.endsWith("/index") && !slug.startsWith("tags/")
+
 const isPost = (page: { slug?: string }) => {
   const slug = page.slug ?? ""
   return !slug.endsWith("index") && slug !== "about"
@@ -19,12 +21,15 @@ export const sharedPageComponents: SharedLayout = {
     }),
     Component.ThemeTokens(),
     Component.TocActive(),
+    Component.SearchShortcut(),
+    Component.ReadingProgress(),
   ],
   afterBody: [],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/loveysuby",
       LinkedIn: "https://www.linkedin.com/in/hyoseop-song/",
+      RSS: "/index.xml",
     },
   }),
 }
@@ -100,6 +105,10 @@ export const defaultContentPageLayout: PageLayout = {
       condition: (page) => page.fileData.slug !== "index",
     }),
     Component.ConditionalRender({
+      component: Component.BackToList(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.ConditionalRender({
       component: Component.Comments({
         provider: "giscus",
         options: {
@@ -115,16 +124,21 @@ export const defaultContentPageLayout: PageLayout = {
       }),
       condition: (page) => page.fileData.slug !== "index",
     }),
-    Component.ConditionalRender({
-      component: Component.BackToList(),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
   ],
 }
 
 // components for pages that display lists of pages  (e.g. tags or folders)
 export const defaultListPageLayout: PageLayout = {
-  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
+  beforeBody: [
+    Component.Breadcrumbs(),
+    Component.ConditionalRender({
+      component: Component.ArticleTitle(),
+      // Folder pages already label themselves through the post list heading;
+      // tag pages still need their title.
+      condition: (page) => !isFolderIndex(page.fileData.slug ?? ""),
+    }),
+    Component.ContentMeta(),
+  ],
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),

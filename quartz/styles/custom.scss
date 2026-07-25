@@ -368,6 +368,11 @@ hr {
   width: 100%;
 }
 
+// renderPage always emits an <hr> before .page-footer, even when afterBody is empty
+.center > hr:has(+ .page-footer:not(:has(*))) {
+  display: none;
+}
+
 .sidebar {
   & .backlinks > h3,
   & .graph > h3,
@@ -388,6 +393,7 @@ hr {
   border-radius: 8px;
   border: 1px solid var(--lightgray);
   background: var(--surface);
+  justify-content: flex-start;
   transition:
     border-color 0.15s ease,
     background-color 0.15s ease;
@@ -399,6 +405,26 @@ hr {
   & p {
     font-size: 0.85rem;
     color: var(--gray);
+  }
+
+  // Keyboard hint sits between the label and the magnifier icon.
+  // Content comes from --searchShortcut, set per platform by SearchShortcut.
+  &::after {
+    content: var(--searchShortcut, "\2318\2009K");
+    order: 1;
+    margin-left: auto;
+    padding: 0.1rem 0.35rem;
+    border: 1px solid var(--lightgray);
+    border-radius: 4px;
+    background: var(--codeBg);
+    font-family: var(--codeFont);
+    font-size: 0.68rem;
+    line-height: 1.4;
+    color: var(--gray);
+  }
+
+  & svg {
+    order: 2;
   }
 }
 

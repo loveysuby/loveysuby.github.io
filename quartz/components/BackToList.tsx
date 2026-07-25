@@ -3,19 +3,15 @@ import { SimpleSlug, resolveRelative } from "../util/path"
 import { classNames } from "../util/lang"
 
 interface Options {
-  fallbackLabel: string
+  label: string
 }
 
 const defaultOptions: Options = {
-  fallbackLabel: "All posts",
+  label: "Back to list",
 }
 
 export default ((userOpts?: Partial<Options>) => {
-  const BackToList: QuartzComponent = ({
-    fileData,
-    allFiles,
-    displayClass,
-  }: QuartzComponentProps) => {
+  const BackToList: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
     const opts = { ...defaultOptions, ...userOpts }
     const slug = fileData.slug
     if (!slug) {
@@ -26,14 +22,11 @@ export default ((userOpts?: Partial<Options>) => {
     segments.pop()
     const parent = (segments.length > 0 ? `${segments.join("/")}/` : "/") as SimpleSlug
 
-    const parentIndex = allFiles.find((page) => page.slug === `${segments.join("/")}/index`)
-    const label = parentIndex?.frontmatter?.title ?? opts.fallbackLabel
-
     return (
       <div class={classNames(displayClass, "back-to-list")}>
         <a href={resolveRelative(slug, parent)}>
           <span class="back-arrow">←</span>
-          {label}
+          {opts.label}
         </a>
       </div>
     )

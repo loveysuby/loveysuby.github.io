@@ -30,6 +30,8 @@ import RelatedPosts from "./RelatedPosts"
 import BackToList from "./BackToList"
 import PostCards from "./PostCards"
 import TocActive from "./TocActive"
+import SearchShortcut from "./SearchShortcut"
+import ReadingProgress from "./ReadingProgress"
 
 export {
   ArticleTitle,
@@ -64,4 +66,6 @@ export {
   BackToList,
   PostCards,
   TocActive,
+  SearchShortcut,
+  ReadingProgress,
 }

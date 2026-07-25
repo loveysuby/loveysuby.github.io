@@ -1,5 +1,5 @@
 ---
-title: About
+title: Hyoseop Song
 created: 2025-03-25
 draft: false
 ---

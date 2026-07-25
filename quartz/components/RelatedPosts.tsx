@@ -9,7 +9,7 @@ interface Options {
 }
 
 const defaultOptions: Options = {
-  title: "Related Posts",
+  title: "You might also like",
   limit: 3,
 }
 

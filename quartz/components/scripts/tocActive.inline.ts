@@ -74,7 +74,7 @@ function updateActive() {
       item.link.classList.toggle("active", isActive)
       if (isActive) activeLink = item.link
 
-      // 최상위 항목은 항상 보이고, 하위 항목은 자신이 속한 절이 활성일 때만 펼친다
+      // Top-level entries stay visible; sub-entries expand only while their section is active
       const revealed = item.depth === 0 || item.groupStart === activeGroup
       item.li.classList.toggle("toc-collapsed", !revealed)
     }

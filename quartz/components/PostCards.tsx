@@ -1,5 +1,5 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { FullSlug, resolveRelative } from "../util/path"
+import { FullSlug, SimpleSlug, resolveRelative } from "../util/path"
 import { QuartzPluginData } from "../plugins/vfile"
 import { byDateAndAlphabetical } from "./PageList"
 import { Date, getDate } from "./Date"
@@ -13,6 +13,9 @@ interface Options {
   limit: number
   showDescription: boolean
   showTags: boolean
+  linkToMore: SimpleSlug | false
+  linkToMoreLabel: string
+  scopeToFolder: boolean
   filter: (f: QuartzPluginData) => boolean
   sort: (f1: QuartzPluginData, f2: QuartzPluginData) => number
 }
@@ -22,9 +25,15 @@ const defaultOptions = (cfg: GlobalConfiguration): Options => ({
   limit: 100,
   showDescription: true,
   showTags: true,
+  linkToMore: false,
+  linkToMoreLabel: "View all posts",
+  scopeToFolder: false,
   filter: () => true,
   sort: byDateAndAlphabetical(cfg),
 })
+
+const isPinned = (page: QuartzPluginData) =>
+  (page.frontmatter as Record<string, any>)?.pinned === true
 
 export default ((userOpts?: Partial<Options>) => {
   const PostCards: QuartzComponent = ({
@@ -34,7 +43,26 @@ export default ((userOpts?: Partial<Options>) => {
     cfg,
   }: QuartzComponentProps) => {
     const opts = { ...defaultOptions(cfg), ...userOpts }
-    const pages = allFiles.filter(opts.filter).sort(opts.sort).slice(0, opts.limit)
+
+    // On folder pages, only consider posts under that folder
+    const folderPrefix = opts.scopeToFolder
+      ? `${(fileData.slug ?? "").split("/").slice(0, -1).join("/")}/`
+      : null
+
+    const matching = allFiles.filter((page) => {
+      if (!opts.filter(page)) return false
+      if (folderPrefix === null) return true
+      return (page.slug ?? "").startsWith(folderPrefix)
+    })
+
+    // Pinned posts always float to the top, keeping the base sort within each bucket
+    const sorted = matching.sort((a, b) => {
+      const pinDiff = Number(isPinned(b)) - Number(isPinned(a))
+      return pinDiff !== 0 ? pinDiff : opts.sort(a, b)
+    })
+
+    const pages = sorted.slice(0, opts.limit)
+    const remaining = Math.max(0, sorted.length - pages.length)
 
     if (pages.length === 0) {
       return null
@@ -52,8 +80,9 @@ export default ((userOpts?: Partial<Options>) => {
 
             return (
               <li>
-                <article>
+                <article class={isPinned(page) ? "pinned" : ""}>
                   <p class="post-meta">
+                    {isPinned(page) && <span class="post-pin">Pinned</span>}
                     {page.dates && <Date date={getDate(cfg, page)!} locale={cfg.locale} />}
                     {minutes !== undefined && (
                       <>
@@ -74,6 +103,7 @@ export default ((userOpts?: Partial<Options>) => {
                         <li>
                           <a
                             class="internal tag-link"
+                            data-no-popover="true"
                             href={resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug)}
                           >
                             {tag}
@@ -87,6 +117,11 @@ export default ((userOpts?: Partial<Options>) => {
             )
           })}
         </ul>
+        {opts.linkToMore && remaining > 0 && (
+          <a class="post-cards-more" href={resolveRelative(fileData.slug!, opts.linkToMore)}>
+            {opts.linkToMoreLabel} ({remaining > 0 ? sorted.length : 0}) →
+          </a>
+        )}
       </div>
     )
   }
@@ -166,6 +201,47 @@ export default ((userOpts?: Partial<Options>) => {
 
   .post-cards .post-meta-sep {
     opacity: 0.6;
+  }
+
+  .post-cards .post-pin {
+    display: inline-block;
+    padding: 0.1rem 0.4rem;
+    margin-right: 0.15rem;
+    border-radius: 4px;
+    background-color: var(--highlight);
+    color: var(--secondary);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .post-cards article.pinned {
+    border-color: color-mix(in srgb, var(--secondary) 30%, var(--lightgray));
+  }
+
+  .post-cards article.pinned::before {
+    transform: scaleY(1);
+    opacity: 0.45;
+  }
+
+  .post-cards article.pinned:hover::before {
+    opacity: 1;
+  }
+
+  a.post-cards-more {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: var(--codeFont);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--gray);
+    background-color: transparent;
+    transition: color 0.15s ease;
+  }
+
+  a.post-cards-more:hover {
+    color: var(--secondary) !important;
   }
 
   .post-cards h4 {

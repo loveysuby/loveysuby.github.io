@@ -1,5 +1,6 @@
 import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
+import PostCards from "./quartz/components/PostCards"
 import { activePalette } from "./quartz/styles/palettes"
 
 /**
@@ -56,7 +57,13 @@ const config: QuartzConfig = {
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
       Plugin.ContentPage(),
-      Plugin.FolderPage(),
+      Plugin.FolderPage({
+        pageBody: PostCards({
+          title: "All Posts",
+          scopeToFolder: true,
+          filter: (page) => !(page.slug ?? "").endsWith("index"),
+        }),
+      }),
       Plugin.TagPage(),
       Plugin.ContentIndex({
         enableSiteMap: true,
