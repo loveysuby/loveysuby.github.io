@@ -29,6 +29,7 @@ import Collapsible from "./Collapsible"
 import RelatedPosts from "./RelatedPosts"
 import BackToList from "./BackToList"
 import PostCards from "./PostCards"
+import TocActive from "./TocActive"
 
 export {
   ArticleTitle,
@@ -62,4 +63,5 @@ export {
   RelatedPosts,
   BackToList,
   PostCards,
+  TocActive,
 }

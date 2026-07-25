@@ -18,6 +18,7 @@ export const sharedPageComponents: SharedLayout = {
       ],
     }),
     Component.ThemeTokens(),
+    Component.TocActive(),
   ],
   afterBody: [],
   footer: Component.Footer({

@@ -424,46 +424,82 @@ hr {
   }
 
   & ul.toc-content {
-    margin-top: 0.7rem;
+    margin-top: 0.8rem;
+    padding-left: 2px;
 
     & > li {
-      font-size: 0.875rem;
-      line-height: 1.45;
+      position: relative;
       margin: 0;
-      padding: 0.28rem 0 0.28rem 0.7rem;
+      padding: 0.36rem 0 0.36rem 1.35rem;
       border-left: 2px solid var(--lightgray);
-      transition: border-color 0.15s ease;
+      font-size: 0.83rem;
+      line-height: 1.5;
+      max-height: 6rem;
+      transition:
+        max-height 0.22s ease,
+        opacity 0.18s ease,
+        padding 0.22s ease;
+
+      &.toc-collapsed {
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        opacity: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: -2px;
+        top: 0.24rem;
+        bottom: 0.24rem;
+        width: 2px;
+        border-radius: 2px;
+        background: var(--secondary);
+        opacity: 0;
+        transition: opacity 0.18s ease;
+      }
 
       & > a {
-        color: var(--darkgray);
-        font-weight: 450;
-        opacity: 0.85;
+        color: var(--gray);
+        font-weight: 400;
+        background-color: transparent;
         transition:
-          color 0.15s ease,
-          opacity 0.15s ease;
+          color 0.18s ease,
+          font-weight 0.18s ease;
       }
 
       &:hover > a {
-        opacity: 1;
-        color: var(--secondary) !important;
+        color: var(--darkgray) !important;
       }
 
-      &.in-view {
-        border-left-color: var(--secondary);
+      &:has(> a.active) {
+        &::before {
+          opacity: 1;
+        }
 
         & > a {
-          color: var(--secondary);
+          color: var(--secondary) !important;
           font-weight: 600;
-          opacity: 1;
         }
       }
 
+      &.depth-0 {
+        padding-left: 1.35rem;
+      }
+
       &.depth-1 {
-        padding-left: 1.4rem;
+        padding-left: 2.2rem;
       }
 
       &.depth-2 {
-        padding-left: 2.1rem;
+        padding-left: 3.05rem;
+      }
+
+      &.depth-3 {
+        padding-left: 3.9rem;
       }
     }
   }
