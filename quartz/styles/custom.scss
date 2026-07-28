@@ -363,6 +363,30 @@ img {
   border: 1px solid var(--lightgray);
 }
 
+figure.img-caption {
+  margin: 1.75rem 0;
+  text-align: center;
+
+  & > img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  & > figcaption {
+    margin: 0.6rem auto 0;
+    max-width: 42rem;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--gray);
+
+    & > a {
+      color: inherit;
+      background-color: transparent;
+    }
+  }
+}
+
 hr {
   margin: 3rem auto;
   width: 100%;

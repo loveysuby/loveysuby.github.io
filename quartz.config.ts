@@ -51,6 +51,8 @@ const config: QuartzConfig = {
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
       Plugin.Latex({ renderEngine: "katex" }),
+      // YouTube / video 임베드 변환 뒤에 와야 한다
+      Plugin.ImageCaptions(),
     ],
     filters: [Plugin.RemoveDrafts()],
     emitters: [
