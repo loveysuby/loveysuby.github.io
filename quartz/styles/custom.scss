@@ -10,6 +10,12 @@
 
   --radius: 10px;
   --radiusLg: 14px;
+
+  // 코드블록 터미널 창 크롬
+  --termBarH: 2.2rem;
+  --termRed: #ff5f56;
+  --termYellow: #ffbd2e;
+  --termGreen: #27c93f;
 }
 
 body {
@@ -217,6 +223,36 @@ code {
   padding: 0.12em 0.38em;
 }
 
+// 코드블록은 터미널 창처럼 렌더한다.
+//   figure > [data-rehype-pretty-code-title] + pre  → 타이틀 div가 창 바
+//   figure > pre                                    → pre 가 ::before/::after 로 직접 바를 그림
+// 신호등 3개는 점 하나 + box-shadow 두 번으로 만든다(가상 요소 하나만 소모).
+@mixin term-dots {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 1.1rem;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: var(--termRed);
+  box-shadow:
+    16px 0 0 var(--termYellow),
+    32px 0 0 var(--termGreen);
+}
+
+@mixin term-title {
+  font-family: var(--codeFont);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--gray);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 pre {
   background: var(--codeBg);
   border: 1px solid var(--lightgray);
@@ -249,46 +285,95 @@ pre {
   }
 }
 
-pre[data-language]::before {
-  content: attr(data-language);
-  position: absolute;
-  top: 0.45rem;
-  right: 0.7rem;
-  font-family: var(--codeFont);
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--codeLineNum);
-  pointer-events: none;
-  transition: opacity 0.15s ease;
+// 타이틀 없는 코드블록: pre 가 스스로 창 바를 그린다.
+// (mermaid 다이어그램은 코드가 아니라 그림이라 제외)
+//
+// 창 바는 pre 위에 겹쳐 놓는 오버레이고, 코드가 바 아래에서 시작하도록
+// 자리를 비우는 건 pre 가 아니라 안쪽 code 의 padding-top 이다.
+// pre 의 padding 은 base.scss 의 `figure > pre { padding: 0 }` 와 특이도가
+// 같아 규칙 순서에 휘둘리므로 건드리지 않는다.
+pre:not(:has(> code.mermaid)) {
+  &::before {
+    @include term-title;
+    // data-language 가 없는 블록(``` 만 친 경우)이면 빈 문자열이 된다
+    content: attr(data-language);
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--termBarH);
+    display: flex;
+    align-items: center;
+    // 왼쪽은 신호등, 오른쪽은 복사 버튼 자리를 비우고 신호등 옆에 붙인다
+    padding: 0 2.6rem 0 4.4rem;
+    background: var(--codeTitleBg);
+    border-bottom: 1px solid var(--lightgray);
+    border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+    pointer-events: none;
+  }
+
+  &::after {
+    @include term-dots;
+    top: calc(var(--termBarH) / 2);
+  }
+
+  // 바 높이 - pre 자체 padding-top(0.85rem) + 바와 첫 줄 사이 여백
+  & > code {
+    padding-top: calc(var(--termBarH) - 0.15rem);
+  }
 }
 
-pre:hover[data-language]::before {
-  opacity: 0;
+// shiki 를 안 거친 순수 ``` 블록은 [data-line] 좌우 패딩이 없어 직접 준다
+pre:not(:has(> code[data-theme])):not(:has(> code.mermaid)) > code {
+  padding-left: 1.1rem;
+  padding-right: 1.1rem;
 }
 
-figure[data-rehype-pretty-code-figure]:has(> [data-rehype-pretty-code-title]) > pre::before {
-  display: none;
+// ```text / ```txt 는 언어가 아니라 그냥 출력이므로 제목 없이 창만 보여준다
+// (일반 규칙과 특이도를 맞추려고 :not(:has(...)) 를 그대로 붙인다)
+pre[data-language="text"]:not(:has(> code.mermaid))::before,
+pre[data-language="txt"]:not(:has(> code.mermaid))::before,
+pre[data-language="plaintext"]:not(:has(> code.mermaid))::before {
+  content: "";
 }
 
 figure[data-rehype-pretty-code-figure] {
   margin: 1.5rem 0;
 
+  // 타이틀이 있으면 figcaption 자체가 창 바가 되므로 pre 쪽 바는 끈다
+  &:has(> [data-rehype-pretty-code-title]) > pre {
+    // 복사 버튼의 기준을 figure 로 옮겨서 figcaption 바 안에 앉힌다
+    position: static;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+
+    & > code {
+      padding-top: 0.1rem;
+    }
+  }
+
   & > [data-rehype-pretty-code-title] {
+    @include term-title;
+    position: relative;
     box-sizing: border-box;
     width: 100%;
-    font-family: var(--codeFont);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    color: var(--gray);
+    height: var(--termBarH);
+    display: flex;
+    align-items: center;
+    padding: 0 2.6rem 0 4.4rem;
     background: var(--codeTitleBg);
     border: 1px solid var(--lightgray);
     border-bottom: none;
     border-radius: var(--radius) var(--radius) 0 0;
-    padding: 0.5rem 1.1rem;
     margin-bottom: 0;
+
+    &::before {
+      @include term-dots;
+    }
   }
 
   & > pre {
@@ -300,9 +385,39 @@ figure[data-rehype-pretty-code-figure] {
     border-radius: 0 0 var(--radius) var(--radius);
     box-shadow: none;
   }
+
+  // caption="..." 은 창 아래쪽 상태바로 붙인다 (위 타이틀 바와 짝)
+  & > [data-rehype-pretty-code-caption] {
+    @include term-title;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.45rem 1.1rem;
+    background: var(--codeTitleBg);
+    border: 1px solid var(--lightgray);
+    border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+    // 제목과 달리 문장이 들어올 수 있으니 줄바꿈은 허용한다
+    white-space: normal;
+    overflow: visible;
+  }
+
+  & > pre:has(+ [data-rehype-pretty-code-caption]) {
+    border-radius: var(--radius) var(--radius) 0 0;
+    box-shadow: none;
+  }
+
+  // 타이틀과 캡션이 둘 다 있으면 pre 는 위아래 모두 각진다
+  & > [data-rehype-pretty-code-title] + pre:has(+ [data-rehype-pretty-code-caption]) {
+    border-radius: 0;
+  }
 }
 
+// 복사 버튼은 창 바 오른쪽에 앉힌다
 .clipboard-button {
+  top: 0.3rem;
+  right: 0.5rem;
+  margin: 0;
+  padding: 0.25rem;
   opacity: 0;
   border-radius: 6px;
   border: 1px solid var(--lightgray);
