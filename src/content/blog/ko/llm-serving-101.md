@@ -7,6 +7,7 @@ tags:
   - serving
   - vllm
   - gpu
+heroImage: { src: '../_images/llm-serving-101.jpg', alt: 'Low-angle view of a grey concrete building against a pink sky' }
 category: "AI Infra"
 draft: false
 ---

@@ -6,6 +6,7 @@ tags:
   - ai
   - langchain
   - agent
+heroImage: { src: '../_images/langchain-1-0-1-structured-output.jpg', alt: 'Curved beige facade of a modern high-rise seen from below' }
 category: "Agent"
 draft: false
 ---

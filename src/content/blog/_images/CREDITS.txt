@@ -1,0 +1,4 @@
+Hero images, from Unsplash (https://unsplash.com/license):
+
+llm-serving-101.jpg                       https://unsplash.com/photos/rSruCiNzPIQ
+langchain-1-0-1-structured-output.jpg     https://unsplash.com/photos/Vv7iRUgVJO8
