@@ -59,15 +59,3 @@ toc-heading h2 {
 toc-heading .toc-item {
   padding-block: 0.2rem;
 }
-
-/* Post hero image: always the same box (3:2), whatever the source image's proportions.
-   The image is cropped to fill it. */
-.hero-image .cover-image,
-.hero-image #blurImage {
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
-}
-/* The blurred copy behind it takes the same box instead of following the file's pixel width. */
-.hero-image #blurImage {
-  width: 100%;
-}

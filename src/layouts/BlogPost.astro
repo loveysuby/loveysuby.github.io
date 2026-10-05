@@ -74,7 +74,8 @@ const primaryColor = data.heroImage?.color ?? 'hsl(var(--primary) / var(--un-tex
 
   {!!headings.length && <TOC {headings} slot='sidebar' />}
 
-  <Hero {data} {remarkPluginFrontmatter} slot='header'>
+  {/* heroImage is used for the list cards and the link preview only, not shown on the post itself */}
+  <Hero data={{ ...data, heroImage: undefined }} {remarkPluginFrontmatter} slot='header'>
     <LanguageSwitcher slot='description' current={lang} {translations} />
   </Hero>
 

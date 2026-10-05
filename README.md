@@ -28,7 +28,7 @@ publishDate: 2026-07-24
 tags:
   - llm
 category: "AI Infra"         # optional; badge and archive grouping
-heroImage: { src: '../_images/<slug>.jpg', alt: '...' }   # optional; shown above the title and used as the link preview image
+heroImage: { src: '../_images/<slug>.jpg', alt: '...' }   # optional; background of the post's card in lists and its link preview image (not shown on the post page)
 draft: false
 ---
 ```
