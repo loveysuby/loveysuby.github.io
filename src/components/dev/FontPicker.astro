@@ -1,0 +1,44 @@
+---
+// Dev-only helper for comparing Latin body fonts. Rendered only under `astro dev`
+// (see BaseLayout). Delete this file and its import once a font is chosen.
+const fonts = ['Inter', 'IBM Plex Sans', 'Geist', 'Source Sans 3', 'Manrope', 'DM Sans', 'Figtree']
+---
+
+<select
+  id='dev-font-picker'
+  style='position:fixed;left:12px;bottom:12px;z-index:99;font:12px system-ui;padding:4px 6px;border-radius:6px;border:1px solid hsl(var(--border));background:hsl(var(--background));color:hsl(var(--foreground))'
+>
+  <option value=''>Satoshi (theme default)</option>
+  {fonts.map((f) => <option>{f}</option>)}
+</select>
+
+<script is:inline>
+  {
+    const sel = document.getElementById('dev-font-picker')
+    const apply = (name) => {
+      const root = document.documentElement
+      if (!name) return root.style.removeProperty('--font-satoshi')
+      const id = 'dev-font-' + name.replace(/ /g, '-')
+      if (!document.getElementById(id)) {
+        const link = document.createElement('link')
+        link.id = id
+        link.rel = 'stylesheet'
+        link.href = `https://fonts.googleapis.com/css2?family=${name.replace(/ /g, '+')}:wght@400;500;600;700&display=swap`
+        document.head.appendChild(link)
+      }
+      root.style.setProperty('--font-satoshi', `'${name}', sans-serif`)
+    }
+    let saved = ''
+    try {
+      saved = localStorage.getItem('dev-font') ?? ''
+    } catch {}
+    sel.value = saved
+    apply(sel.value)
+    sel.addEventListener('change', () => {
+      try {
+        localStorage.setItem('dev-font', sel.value)
+      } catch {}
+      apply(sel.value)
+    })
+  }
+</script>

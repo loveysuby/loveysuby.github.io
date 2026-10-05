@@ -1,12 +1,12 @@
 ---
 title: 제목을 입력하세요
-created: 2025-03-25
+publishDate: 2025-03-25
 tags:
   - tag1
   - tag2
 draft: false
 description: 글 요약을 입력하세요
-pinned: false
+language: "한국어"
 ---
 
 ## 개요

@@ -1,22 +1,31 @@
 {
+  "extends": "astro/tsconfigs/strict",
+  "include": ["./.astro/types.d.ts", "./**/*"],
   "compilerOptions": {
-    "lib": ["esnext", "DOM", "DOM.Iterable"],
-    "experimentalDecorators": true,
-    "module": "esnext",
-    "target": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
-    "incremental": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "preact"
+    // Basic
+    "allowJs": true,
+    // Building for a library
+    "declaration": true,
+    // Code runs in the DOM
+    "lib": ["es2022", "dom", "dom.iterable"],
+    // Type Imports
+    "verbatimModuleSyntax": true,
+    // Others
+    "strictNullChecks": true,
+    // Paths
+    "paths": {
+      "@/assets/*": ["./src/assets/*"],
+      "@/public/*": ["./public/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/layouts/*": ["./src/layouts/*"],
+      "@/utils": ["./src/utils/index.ts"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/plugins/*": ["./src/plugins/*"],
+      "@/pages/*": ["./src/pages/*"],
+      "@/types": ["./src/types/index.ts"],
+      "@/site-config": ["./src/site.config.ts"]
+    }
+    // https://docs.astro.build/en/guides/typescript/#typescript-editor-plugin
   },
-  "include": ["**/*.ts", "**/*.tsx", "./package.json"],
-  "exclude": ["build/**/*.d.ts"]
+  "exclude": ["./node_modules", "./**/node_modules/*", "./.vscode", "./dist", "./public/scripts/*", "./test/*"]
 }

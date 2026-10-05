@@ -1,1 +1,40 @@
-# loveysuby
+# loveysuby.github.io
+
+Personal blog of Hyoseop Song. Built with [Astro](https://astro.build) and the
+[Astro Theme Pure](https://github.com/cworld1/astro-theme-pure) theme
+(Apache-2.0, see `licenses/astro-theme-pure.LICENSE`; adapted from upstream commit `4ecd476`).
+
+## Writing
+
+Posts live in `src/content/blog/*.md`. Frontmatter:
+
+```yaml
+---
+title: "Post title"            # up to 100 characters
+description: "One or two sentences."   # up to 160 characters
+publishDate: 2026-07-24
+tags:
+  - llm
+language: "English"             # shown next to the date
+draft: false
+---
+```
+
+LaTeX (`$...$`, `$$...$$`) and ```` ```mermaid ```` blocks are supported.
+
+## Development
+
+```sh
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # output in dist/
+```
+
+## Changes made on top of the theme
+
+- `src/assets/styles/app.css`: purple palette, smaller table of contents
+- `src/layouts/BaseLayout.astro`: taller top gradient, shown on every page
+- `src/layouts/ContentLayout.astro`: client-side mermaid rendering
+- `src/components/Giscus.astro`: giscus comments (replaces Waline)
+- `astro.config.ts`: static output, redirects from the old `/post/*` URLs
+- `src/pages/index.xml.ts`: RSS at the old `/index.xml` path (also at `/rss.xml`)

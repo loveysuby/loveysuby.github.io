@@ -1,0 +1,69 @@
+/* Theme */
+:root {
+  /* Primary */
+  --primary: 262 46% 50%;
+  /* Foreground */
+  --foreground: 260 18% 12%;
+  --muted-foreground: 260 7% 34%;
+  /* Background */
+  --background: 258 45% 97.5%;
+  --muted: 258 30% 93.5%;
+  --card: 258 18% 89%;
+
+  /* Basic */
+  --border: 258 18% 86%;
+  --input: 258 18% 89%;
+  --ring: 260 20% 15%;
+  --radius: 0.5rem;
+}
+.dark {
+  /* Primary */
+  --primary: 266 90% 84%;
+  /* Foreground */
+  --foreground: 260 25% 95%;
+  --muted-foreground: 260 12% 74%;
+  /* Background */
+  --background: 263 32% 7.5%;
+  --muted: 263 20% 14%;
+  --card: 263 13% 24%;
+
+  /* Basic */
+  --border: 263 13% 22%;
+  --input: 263 13% 18%;
+  --ring: 260 15% 84%;
+}
+:root {
+  --un-default-border-color: hsl(var(--border) / 1);
+}
+html.dark {
+  color-scheme: dark;
+}
+
+/* Global */
+a {
+  transition: color 0.2s ease;
+  &:hover {
+    color: hsl(var(--primary) / var(--un-text-opacity, 1));
+  }
+}
+
+/* Table of contents: smaller than body text */
+toc-heading {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+toc-heading h2 {
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+}
+toc-heading .toc-item {
+  padding-block: 0.2rem;
+}
+
+/* Mermaid diagrams */
+div.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}

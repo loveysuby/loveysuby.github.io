@@ -1,12 +1,12 @@
 ---
 title: 기술 주제 제목
-created: 2025-03-25
+publishDate: 2025-03-25
 tags:
   - tech
   - programming
 draft: false
 description: 기술 관련 내용 요약
-pinned: false
+language: "한국어"
 ---
 
 ## 문제 상황
