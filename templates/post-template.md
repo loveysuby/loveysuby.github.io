@@ -6,7 +6,6 @@ tags:
   - tag2
 draft: false
 description: 글 요약을 입력하세요
-language: "한국어"
 ---
 
 ## 개요

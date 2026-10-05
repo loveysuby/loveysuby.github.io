@@ -7,7 +7,6 @@ tags:
   - serving
   - vllm
   - gpu
-language: "한국어"
 draft: false
 ---
 

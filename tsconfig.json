@@ -20,6 +20,7 @@
       "@/layouts/*": ["./src/layouts/*"],
       "@/utils": ["./src/utils/index.ts"],
       "@/utils/*": ["./src/utils/*"],
+      "@/data/*": ["./src/data/*"],
       "@/plugins/*": ["./src/plugins/*"],
       "@/pages/*": ["./src/pages/*"],
       "@/types": ["./src/types/index.ts"],

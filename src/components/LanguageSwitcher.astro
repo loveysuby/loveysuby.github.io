@@ -1,0 +1,37 @@
+---
+import { HTML_LANG, type Lang } from '@/utils/posts'
+
+interface Props {
+  current: Lang
+  translations: { lang: Lang; label: string; href: string }[]
+}
+
+const { current, translations } = Astro.props
+---
+
+{
+  translations.length > 1 && (
+    <nav class='mt-3 flex flex-wrap items-center gap-2 text-sm not-italic' aria-label='Language'>
+      {translations.map(({ lang, label, href }) =>
+        lang === current ? (
+          <span
+            class='rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-medium text-primary'
+            aria-current='page'
+            lang={HTML_LANG[lang]}
+          >
+            {label}
+          </span>
+        ) : (
+          <a
+            class='rounded-full border border-border px-3 py-0.5 text-muted-foreground no-underline transition-colors hover:border-primary/40 hover:text-primary'
+            href={href}
+            hreflang={HTML_LANG[lang]}
+            lang={HTML_LANG[lang]}
+          >
+            {label}
+          </a>
+        )
+      )}
+    </nav>
+  )
+}

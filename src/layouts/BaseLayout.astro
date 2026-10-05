@@ -13,19 +13,23 @@ import '@/assets/styles/app.css'
 interface Props {
   meta: SiteMeta
   highlightColor?: string
+  /** Value for `<html lang>`. Defaults to the site locale. */
+  lang?: string
 }
 
 const {
   meta: { articleDate, description = config.description, ogImage, title },
   highlightColor = 'hsl(var(--primary))',
+  lang = config.locale.lang,
   ...props
 } = Astro.props
 ---
 
-<html lang={config.locale.lang}>
+<html {lang}>
   <head>
     <BaseHead {articleDate} {description} {ogImage} {title} />
     <ThemeProvider />
+    <slot name='head' />
   </head>
 
   <body class='flex justify-center bg-background text-foreground' {...props}>

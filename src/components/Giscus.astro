@@ -1,9 +1,11 @@
 ---
 interface Props {
   class?: string
+  /** Discussion key. Shared by every language version of a post. */
+  term: string
 }
 
-const { class: className } = Astro.props
+const { class: className, term } = Astro.props
 ---
 
 <section class={className} id='giscus-container'>
@@ -14,7 +16,8 @@ const { class: className } = Astro.props
     data-repo-id='MDEwOlJlcG9zaXRvcnkzNjA0ODA1MTU='
     data-category='General'
     data-category-id='DIC_kwDOFXx_A84C5Nfm'
-    data-mapping='pathname'
+    data-mapping='specific'
+    data-term={term}
     data-strict='0'
     data-reactions-enabled='1'
     data-emit-metadata='0'

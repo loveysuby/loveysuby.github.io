@@ -1,28 +1,36 @@
 ---
-import { render, type CollectionEntry } from 'astro:content'
+import { render } from 'astro:content'
 
-import { getBlogCollection, sortMDByDate } from 'astro-pure/server'
 import PostLayout from '@/layouts/BlogPost.astro'
+import { getAllPosts, getPosts, getTranslations, type LocalizedPost } from '@/utils/posts'
 
 export const prerender = true
 
 export async function getStaticPaths() {
-  const posts = sortMDByDate(await getBlogCollection())
-  return posts.map((post) => ({
-    params: { id: post.id },
-    props: { post, posts }
-  }))
+  const all = await getAllPosts()
+  return Promise.all(
+    all.map(async (post) => ({
+      params: { id: post.id },
+      props: {
+        post,
+        // Previous / next links stay within the reader's language where a translation exists.
+        posts: await getPosts(post.lang),
+        translations: await getTranslations(post.slug)
+      }
+    }))
+  )
 }
 
 type Props = {
-  post: CollectionEntry<'blog'>
-  posts: CollectionEntry<'blog'>[]
+  post: LocalizedPost
+  posts: LocalizedPost[]
+  translations: Awaited<ReturnType<typeof getTranslations>>
 }
 
-const { post, posts } = Astro.props
-const { Content, headings, remarkPluginFrontmatter } = await render(post)
+const { post, posts, translations } = Astro.props
+const { Content, headings, remarkPluginFrontmatter } = await render(post.entry)
 ---
 
-<PostLayout {post} {posts} {headings} {remarkPluginFrontmatter}>
+<PostLayout {post} {posts} {translations} {headings} {remarkPluginFrontmatter}>
   <Content />
 </PostLayout>

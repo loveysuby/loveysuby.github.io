@@ -6,7 +6,6 @@ tags:
   - programming
 draft: false
 description: 기술 관련 내용 요약
-language: "한국어"
 ---
 
 ## 문제 상황

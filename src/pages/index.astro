@@ -2,15 +2,16 @@
 import { Image } from 'astro:assets'
 
 import { PostPreview } from 'astro-pure/components/pages'
-import { getBlogCollection, sortMDByDate } from 'astro-pure/server'
-import { Button, Icon, Label } from 'astro-pure/user'
+import { Button, Card, Icon, Label } from 'astro-pure/user'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import Section from '@/components/home/Section.astro'
+import SkillLayout from '@/components/home/SkillLayout.astro'
+import { certifications, education, skills, websites } from '@/data/profile'
 import config from '@/site-config'
+import { getPosts } from '@/utils/posts'
 
 const MAX_POSTS = 10
-const allPosts = await getBlogCollection()
-const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
+const allPostsByDate = (await getPosts()).slice(0, MAX_POSTS)
 
 const imagePath = config.logo.src
 const images = import.meta.glob<{ default: ImageMetadata }>(
@@ -69,6 +70,44 @@ if (!images[imagePath])
               ))}
             </ul>
             <Button title='More posts' class='w-fit self-end' href='/blog' variant='ahead' />
+          </Section>
+        )
+      }
+      {
+        education.length > 0 && (
+          <Section title='Education'>
+            {education.map((item) => (
+              <Card as={item.href ? 'a' : 'div'} {...item} />
+            ))}
+          </Section>
+        )
+      }
+      {
+        websites.length > 0 && (
+          <Section title='Website List'>
+            <div class='grid grid-cols-1 gap-3 sm:grid-cols-2'>
+              {websites.map((item) => (
+                <Card as='a' target='_blank' {...item} />
+              ))}
+            </div>
+          </Section>
+        )
+      }
+      {
+        certifications.length > 0 && (
+          <Section title='Certifications'>
+            {certifications.map((item) => (
+              <Card as={item.href ? 'a' : 'div'} {...item} />
+            ))}
+          </Section>
+        )
+      }
+      {
+        skills.length > 0 && (
+          <Section title='Skills'>
+            {skills.map((group) => (
+              <SkillLayout title={group.title} skills={group.items} />
+            ))}
           </Section>
         )
       }

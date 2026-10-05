@@ -42,7 +42,8 @@ export default defineConfig({
   // Old Quartz URLs lived under /post; keep them working.
   redirects: {
     '/post': '/blog',
-    '/post/[...id]': '/blog/[...id]'
+    '/post/llm-serving-101-en': '/blog/llm-serving-101',
+    '/post/langchain-1-0-1-structured-output': '/blog/langchain-1-0-1-structured-output'
   },
 
   // [Assets]

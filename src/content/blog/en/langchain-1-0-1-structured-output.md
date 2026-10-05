@@ -6,7 +6,6 @@ tags:
   - ai
   - langchain
   - agent
-language: "English"
 draft: false
 ---
 

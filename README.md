@@ -6,7 +6,19 @@ Personal blog of Hyoseop Song. Built with [Astro](https://astro.build) and the
 
 ## Writing
 
-Posts live in `src/content/blog/*.md`. Frontmatter:
+Posts live in `src/content/blog/<lang>/<slug>.md`, where `<lang>` is `en`, `ko`, `zh` or `ja`.
+Files with the same `<slug>` are translations of one post.
+
+| Language | URL |
+| --- | --- |
+| English (default) | `/blog/<slug>` |
+| Others | `/blog/<lang>/<slug>` |
+
+Lists (home, blog, archive, tags, RSS) show one entry per post: the English version when it
+exists, otherwise whichever language is available. Each post page shows a language switcher and
+emits `hreflang` links. Comments are shared across the language versions of a post.
+
+Frontmatter:
 
 ```yaml
 ---
@@ -15,12 +27,17 @@ description: "One or two sentences."   # up to 160 characters
 publishDate: 2026-07-24
 tags:
   - llm
-language: "English"             # shown next to the date
 draft: false
 ---
 ```
 
 LaTeX (`$...$`, `$$...$$`) and ```` ```mermaid ```` blocks are supported.
+
+To translate a post into the missing languages with Claude Code:
+`/translate-post src/content/blog/ko/<slug>.md`
+
+Optional home page sections (education, certifications, websites, skills) are filled in
+`src/data/profile.ts`; a section appears once its list has an entry.
 
 ## Development
 
@@ -37,4 +54,5 @@ npm run build    # output in dist/
 - `src/layouts/ContentLayout.astro`: client-side mermaid rendering
 - `src/components/Giscus.astro`: giscus comments (replaces Waline)
 - `astro.config.ts`: static output, redirects from the old `/post/*` URLs
+- `src/utils/posts.ts`, `src/components/LanguageSwitcher.astro`: per-language posts
 - `src/pages/index.xml.ts`: RSS at the old `/index.xml` path (also at `/rss.xml`)
