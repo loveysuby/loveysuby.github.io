@@ -13,8 +13,9 @@ Rules for each translation:
 - Frontmatter: keep the same keys. Translate `title` (under 100 characters) and `description`
   (at most 160 characters). Keep `publishDate`, `tags`, and `draft` unchanged. Do not add a
   `language` field; it is derived from the folder name.
-- Leave unchanged: fenced code blocks, inline code, LaTeX (`$...$`, `$$...$$`), URLs, image
-  paths, HTML tags.
+- Leave unchanged: code, LaTeX (`$...$`, `$$...$$`), URLs, image paths, HTML tags. Inside fenced
+  blocks and inline code, translate only natural-language text written in the source language
+  (comments, labels); keep identifiers, numbers and alignment.
 - ```` ```mermaid ```` blocks: keep syntax, node IDs and arrows; translate only label text.
 - Keep established English technical terms in English (KV cache, prefill, TTFT, vLLM, ...).
 - Japanese uses だ・である体. Chinese is Simplified Chinese.
