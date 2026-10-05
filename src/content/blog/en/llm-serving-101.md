@@ -287,7 +287,7 @@ Reducing $b_{kv}$ means changing the attention structure itself. These are decid
 
 **MLA (Multi-head Latent Attention)** does not store K and V directly. It compresses them into a low-dimensional latent for storage and reconstructs them at use time. DeepSeek-V2/V3 use this approach, and as the earlier table shows, per-token cache is even smaller than GQA.
 
-**SWA (Sliding Window Attention)** works on a different axis. Where the previous three reduce bytes per token, SWA limits how many tokens are stored. If each token attends only to the most recent $W$ tokens, anything older can be dropped from the cache. Mistral-7B uses $W$ = 4096 with a context of 8192, halving the cache. The key property is that the cache stops growing at $W$ no matter how long the context gets. Information outside the window still propagates indirectly through layers.
+**SWA (Sliding Window Attention)** works on a different axis. Where MQA, GQA and MLA reduce bytes per token, SWA limits how many tokens are stored. If each token attends only to the most recent $W$ tokens, anything older can be dropped from the cache. Mistral-7B uses $W$ = 4096 with a context of 8192, halving the cache. The key property is that the cache stops growing at $W$ no matter how long the context gets. Information outside the window still propagates indirectly through layers.
 
 | Variant | KV head count | $b_{kv}$ at Llama-2-7B scale | Characteristics |
 |---|---|---|---|
@@ -395,7 +395,7 @@ One caution when estimating arrival rate: the value from `concurrency ÷ E2E lat
 
 ## 6. Observability
 
-GPU utilization at 100% does not mean the GPU is doing work; it means a kernel is resident. Decode spends its time reading weights from memory, so utilization reads high even while compute units sit idle.
+GPU utilization at 100% does not mean the GPU is using all of its compute; it means at least one kernel was executing for the whole sampling period. Decode spends its time reading weights from memory, so utilization reads high even while compute units sit idle.
 
 Two layers therefore have to be viewed together.
 
@@ -502,8 +502,8 @@ Four factors move the result substantially.
 
 - **The $\bar S$ estimate in step 2.** Setting context length to `max_model_len` overestimates and leads to provisioning more GPUs than necessary. Taking the mean instead causes preemption when long requests cluster. Checking the length distribution and using something around p90 is the approach I use.
 - **Whether KV cache reuse is accounted for.** A shared system prompt lowers effective $\bar S$ by that amount (4.2). Leaving it out of the calculation overestimates the capacity needed.
-- I think it is better to bound these values with the most extreme case you can justify. The actual figure depends on how close the scheduler gets to the ceiling, and that has to be confirmed by measurement.
-- I think every decision has a middle ground. That said, when an LLM environment is deployed inside an organization there are often heavy users. When people are spending resources to apply AI to their actual work, setting potential capacity on the higher side has been the practical choice.
+- I think the inputs to this calculation are best taken from the most extreme case you can justify. The result is then a ceiling. The actual figure depends on how close the scheduler gets to that ceiling, and that has to be confirmed by measurement.
+- I think every decision has a middle ground. That said, when an LLM environment is deployed inside an organization there are often heavy users. When people are spending resources to apply AI to their actual work, sizing capacity above current need, to cover potential demand, has been the practical choice.
 
 ---
 

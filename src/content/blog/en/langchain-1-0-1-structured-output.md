@@ -6,7 +6,7 @@ tags:
   - ai
   - langchain
   - agent
-category: "Agents"
+category: "Agent"
 draft: false
 ---
 
