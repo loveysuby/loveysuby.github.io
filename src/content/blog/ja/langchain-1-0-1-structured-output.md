@@ -15,16 +15,16 @@ draft: false
 LangChain 1.0.1 にアップグレードした後、サービスの structured output が動作しなくなった。`with_structured_output()` メソッドが想定と異なる結果を返していた。
 
 ```python
-output_format = UserPreference(BaseModel):
+class UserPreference(BaseModel):
     id: UUID = Field(description="songhyoseop")
     company: Optional[str] = Field(default="Home")
 
-llm_with_structure = self.llm.with_structured_output(output_format)
+llm_with_structure = self.llm.with_structured_output(UserPreference)
 chain = prompt | llm_with_structure
 
 response = await chain.ainvoke(variables)
 
-assert type(response) == output_format  # False
+assert type(response) == UserPreference  # False
 ```
 
 ## 解決策: ProviderStrategy

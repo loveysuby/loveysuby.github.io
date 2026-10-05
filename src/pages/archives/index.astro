@@ -1,47 +1,37 @@
 ---
 import PageLayout from '@/layouts/BaseLayout.astro'
-import { getPosts, type LocalizedPost } from '@/utils/posts'
+import PostGroups from '@/components/PostGroups.astro'
+import { byCountThenName, getPosts, groupByTag, groupPosts } from '@/utils/posts'
 
 export const prerender = true
 
 const posts = await getPosts()
-
-type Group = { key: string; posts: LocalizedPost[] }
-
-function groupBy(keysOf: (post: LocalizedPost) => string[]): Group[] {
-  const map = new Map<string, LocalizedPost[]>()
-  for (const post of posts)
-    for (const key of keysOf(post)) map.set(key, [...(map.get(key) ?? []), post])
-  return [...map.entries()].map(([key, posts]) => ({ key, posts }))
-}
-
-// publishDate is parsed as UTC midnight; format from the ISO string to avoid timezone shifts.
-const iso = (post: LocalizedPost) => post.data.publishDate.toISOString()
+const year = (date: Date) => date.toISOString().slice(0, 4)
 
 const views = [
   {
     id: 'year',
     label: 'By Year',
-    date: (post: LocalizedPost) => iso(post).slice(5, 10),
-    groups: groupBy((p) => [iso(p).slice(0, 4)]).sort((a, b) => b.key.localeCompare(a.key))
+    dateFormat: 'month-day',
+    groups: groupPosts(posts, (p) => [year(p.data.publishDate)]).sort((a, b) =>
+      b.key.localeCompare(a.key)
+    )
   },
   {
     id: 'category',
     label: 'By Category',
-    date: (post: LocalizedPost) => iso(post).slice(0, 10),
-    groups: groupBy((p) => (p.data.category ? [p.data.category] : [])).sort(
-      (a, b) => b.posts.length - a.posts.length || a.key.localeCompare(b.key)
+    dateFormat: 'full',
+    groups: groupPosts(posts, (p) => (p.data.category ? [p.data.category] : [])).sort(
+      byCountThenName
     )
   },
-  {
-    id: 'tag',
-    label: 'By Tag',
-    date: (post: LocalizedPost) => iso(post).slice(0, 10),
-    groups: groupBy((p) => p.data.tags).sort(
-      (a, b) => b.posts.length - a.posts.length || a.key.localeCompare(b.key)
-    )
-  }
-].filter((view) => view.groups.length > 0)
+  { id: 'tag', label: 'By Tag', dateFormat: 'full', groups: groupByTag(posts) }
+].filter((view) => view.groups.length > 0) as {
+  id: string
+  label: string
+  dateFormat: 'month-day' | 'full'
+  groups: ReturnType<typeof groupPosts>
+}[]
 
 const meta = {
   description: 'All posts, grouped by year, category or tag',
@@ -77,60 +67,7 @@ const meta = {
       {
         views.map((view, i) => (
           <div data-panel={view.id} role='tabpanel' hidden={i !== 0} class='mt-6'>
-            {view.groups.map((group) => (
-              <details class='archive-group border-b last:border-b-0' open>
-                <summary class='flex cursor-pointer list-none items-center justify-between gap-x-4 py-5'>
-                  <h2 class='text-2xl font-medium'>{group.key}</h2>
-                  <span class='flex items-center gap-x-3 text-sm text-muted-foreground'>
-                    <span class='size-2.5 rounded-full border-2 border-primary' />
-                    {group.posts.length} post{group.posts.length > 1 && 's'}
-                    <svg
-                      class='chevron size-4 transition-transform'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      stroke-width='2'
-                      stroke-linecap='round'
-                      stroke-linejoin='round'
-                      aria-hidden='true'
-                    >
-                      <path d='m6 9 6 6 6-6' />
-                    </svg>
-                  </span>
-                </summary>
-                <ul class='flex flex-col pb-5'>
-                  {group.posts.map((post) => (
-                    <li class='group flex items-center gap-x-3 rounded-lg px-2 py-2 transition-colors hover:bg-muted/60 sm:gap-x-4'>
-                      <time
-                        datetime={iso(post).slice(0, 10)}
-                        class='shrink-0 font-mono text-xs text-muted-foreground'
-                      >
-                        {view.date(post)}
-                      </time>
-                      <span class='size-1.5 shrink-0 rounded-full bg-muted-foreground/60 transition-colors group-hover:bg-primary' />
-                      {post.data.category && (
-                        <span class='hidden shrink-0 rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary sm:inline'>
-                          {post.data.category}
-                        </span>
-                      )}
-                      <a
-                        href={`/blog/${post.id}`}
-                        class='min-w-0 flex-1 truncate font-medium no-underline hover:text-primary'
-                      >
-                        {post.data.title}
-                      </a>
-                      <span class='hidden max-w-56 shrink-0 truncate text-xs text-muted-foreground md:block'>
-                        {post.data.tags.map((tag) => (
-                          <a href={`/tags/${tag}`} class='ms-2 no-underline hover:text-primary'>
-                            #{tag}
-                          </a>
-                        ))}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            ))}
+            <PostGroups groups={view.groups} dateFormat={view.dateFormat} />
           </div>
         ))
       }
@@ -168,11 +105,5 @@ const meta = {
   }
   .archive-tabs [aria-selected='false']:hover {
     color: hsl(var(--foreground));
-  }
-  .archive-group summary::-webkit-details-marker {
-    display: none;
-  }
-  .archive-group[open] .chevron {
-    transform: rotate(180deg);
   }
 </style>

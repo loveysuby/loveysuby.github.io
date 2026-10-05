@@ -1,0 +1,84 @@
+---
+// Collapsible groups of posts (heading, post count, one row per post). Used by the archive
+// views and by the tags page.
+import type { PostGroup } from '@/utils/posts'
+
+interface Props {
+  groups: PostGroup[]
+  /** 'month-day' shows 07-28 (for groups that are already a year); 'full' shows 2026-07-28. */
+  dateFormat?: 'month-day' | 'full'
+}
+
+const { groups, dateFormat = 'full' } = Astro.props
+
+// publishDate is parsed as UTC midnight; format from the ISO string to avoid timezone shifts.
+const iso = (date: Date) => date.toISOString().slice(0, 10)
+---
+
+{
+  groups.map((group) => (
+    <details class='post-group border-b last:border-b-0' open>
+      <summary class='flex cursor-pointer list-none items-center justify-between gap-x-4 py-5'>
+        <h2 class='text-2xl font-medium'>{group.key}</h2>
+        <span class='flex items-center gap-x-3 text-sm text-muted-foreground'>
+          <span class='size-2.5 rounded-full border-2 border-primary' />
+          {group.posts.length} post{group.posts.length > 1 && 's'}
+          <svg
+            class='chevron size-4 transition-transform'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            stroke-width='2'
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            aria-hidden='true'
+          >
+            <path d='m6 9 6 6 6-6' />
+          </svg>
+        </span>
+      </summary>
+      <ul class='flex flex-col pb-5'>
+        {group.posts.map((post) => (
+          <li class='group flex items-center gap-x-3 rounded-lg px-2 py-2 transition-colors hover:bg-muted/60 sm:gap-x-4'>
+            <time
+              datetime={iso(post.data.publishDate)}
+              class='shrink-0 font-mono text-xs text-muted-foreground'
+            >
+              {dateFormat === 'month-day'
+                ? iso(post.data.publishDate).slice(5)
+                : iso(post.data.publishDate)}
+            </time>
+            <span class='size-1.5 shrink-0 rounded-full bg-muted-foreground/60 transition-colors group-hover:bg-primary' />
+            {post.data.category && (
+              <span class='hidden shrink-0 rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary sm:inline'>
+                {post.data.category}
+              </span>
+            )}
+            <a
+              href={`/blog/${post.id}`}
+              class='min-w-0 flex-1 truncate font-medium no-underline hover:text-primary'
+            >
+              {post.data.title}
+            </a>
+            <span class='hidden max-w-56 shrink-0 truncate text-xs text-muted-foreground md:block'>
+              {post.data.tags.map((tag) => (
+                <a href={`/tags/${tag}`} class='ms-2 no-underline hover:text-primary'>
+                  #{tag}
+                </a>
+              ))}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </details>
+  ))
+}
+
+<style>
+  .post-group summary::-webkit-details-marker {
+    display: none;
+  }
+  .post-group[open] .chevron {
+    transform: rotate(180deg);
+  }
+</style>

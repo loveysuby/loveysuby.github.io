@@ -66,3 +66,24 @@ export async function getTranslations(slug: string) {
     .filter((lang) => versions.some((v) => v.lang === lang))
     .map((lang) => ({ lang, label: LANGS[lang], href: `/blog/${urlId(lang, slug)}` }))
 }
+
+export type PostGroup = { key: string; posts: LocalizedPost[] }
+
+/** Groups posts by the keys `keysOf` returns. A post with several keys appears in each group. */
+export function groupPosts(
+  posts: LocalizedPost[],
+  keysOf: (post: LocalizedPost) => string[]
+): PostGroup[] {
+  const map = new Map<string, LocalizedPost[]>()
+  for (const post of posts)
+    for (const key of keysOf(post)) map.set(key, [...(map.get(key) ?? []), post])
+  return [...map.entries()].map(([key, posts]) => ({ key, posts }))
+}
+
+/** Largest group first, then alphabetical. */
+export const byCountThenName = (a: PostGroup, b: PostGroup) =>
+  b.posts.length - a.posts.length || a.key.localeCompare(b.key)
+
+/** Posts grouped by tag, as shown in the archive's "By Tag" view and on the tags page. */
+export const groupByTag = (posts: LocalizedPost[]) =>
+  groupPosts(posts, (p) => p.data.tags).sort(byCountThenName)
