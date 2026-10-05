@@ -77,8 +77,8 @@ const meta = {
       {
         views.map((view, i) => (
           <div data-panel={view.id} role='tabpanel' hidden={i !== 0} class='mt-6'>
-            {view.groups.map((group, j) => (
-              <details class='archive-group border-b last:border-b-0' open={j === 0}>
+            {view.groups.map((group) => (
+              <details class='archive-group border-b last:border-b-0' open>
                 <summary class='flex cursor-pointer list-none items-center justify-between gap-x-4 py-5'>
                   <h2 class='text-2xl font-medium'>{group.key}</h2>
                   <span class='flex items-center gap-x-3 text-sm text-muted-foreground'>
