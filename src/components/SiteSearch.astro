@@ -30,11 +30,16 @@ import '@pagefind/default-ui/css/ui.css'
         if (!document.getElementById('site-search')) return
         // @ts-expect-error — Missing types for @pagefind/default-ui package.
         const { PagefindUI } = await import('@pagefind/default-ui')
+        const bundle = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/pagefind/`
         const ui = new PagefindUI({
           element: '#site-search',
           baseUrl: import.meta.env.BASE_URL,
-          bundlePath: `${import.meta.env.BASE_URL.replace(/\/$/, '')}/pagefind/`,
+          bundlePath: bundle,
           autofocus: true,
+          // The page is English, so pagefind loads the English index. Also search Korean posts.
+          // pagefind refuses to merge a bundle whose path string equals the primary one, so the
+          // same bundle is addressed as `<bundle>./`, which resolves to the same URL.
+          mergeIndex: [{ bundlePath: `${bundle}./`, language: 'ko' }],
           showImages: false,
           showSubResults: true,
           processResult: (result: { url: string; sub_results: Array<{ url: string }> }) => {
