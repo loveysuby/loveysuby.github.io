@@ -14,7 +14,8 @@ export const theme: ThemeUserConfig = {
   socialCard: '/images/social-card.png',
   /** Specify the default language for this site. */
   locale: {
-    lang: 'en-US',
+    // Must equal HTML_LANG.en in src/utils/posts.ts: pagefind builds one index per language code.
+    lang: 'en',
     attrs: 'en_US',
     // Date locale
     dateLocale: 'en-US',

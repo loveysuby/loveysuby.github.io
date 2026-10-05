@@ -1,7 +1,7 @@
 ---
-import { PFSearch } from 'astro-pure/components/pages'
 import { Button } from 'astro-pure/user'
 import PageLayout from '@/layouts/BaseLayout.astro'
+import SiteSearch from '@/components/SiteSearch.astro'
 import { integ } from '@/site-config'
 
 const meta = {
@@ -22,7 +22,7 @@ const meta = {
         integ.pagefind ? (
           <>
             <p>Enter a search term or phrase to search the blog.</p>
-            <PFSearch />
+            <SiteSearch />
           </>
         ) : (
           <p>Pagefind is disabled.</p>

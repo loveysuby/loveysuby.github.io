@@ -1,0 +1,190 @@
+---
+// Renders ```mermaid code blocks in the browser (the theme has no mermaid support) and adds a
+// full-screen viewer: wheel to zoom, drag to move, buttons for zoom in / out / reset.
+---
+
+<dialog id='mermaid-viewer' aria-label='Diagram viewer'>
+  <div class='mv-toolbar'>
+    <button type='button' data-mv='out' title='Zoom out' aria-label='Zoom out'>−</button>
+    <button type='button' data-mv='in' title='Zoom in' aria-label='Zoom in'>+</button>
+    <button type='button' data-mv='fit' title='Reset view'>Reset</button>
+    <button type='button' data-mv='close' title='Close (Esc)' aria-label='Close'>✕</button>
+  </div>
+  <div class='mv-stage'><div class='mv-canvas'></div></div>
+</dialog>
+
+<script is:inline type='module'>
+  const blocks = Array.from(document.querySelectorAll('div[data-language="mermaid"]'))
+  if (blocks.length) {
+    const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs')
+    const isDark = () => document.documentElement.classList.contains('dark')
+
+    // Replace each highlighted code block with a container that keeps its source.
+    const diagrams = blocks.map((block) => {
+      const el = document.createElement('div')
+      el.className = 'mermaid'
+      el.dataset.source = block.querySelector('pre code')?.textContent ?? ''
+      el.title = 'Click to open the viewer'
+      block.replaceWith(el)
+      return el
+    })
+
+    const render = async () => {
+      mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: isDark() ? 'dark' : 'default' })
+      for (const el of diagrams) {
+        el.removeAttribute('data-processed')
+        el.textContent = el.dataset.source
+      }
+      await mermaid.run({ nodes: diagrams })
+    }
+    await render()
+
+    // Re-render when the site theme changes.
+    let dark = isDark()
+    new MutationObserver(() => {
+      if (dark === isDark()) return
+      dark = isDark()
+      render()
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+
+    // ---- Viewer
+    const viewer = document.getElementById('mermaid-viewer')
+    const stage = viewer.querySelector('.mv-stage')
+    const canvas = viewer.querySelector('.mv-canvas')
+    let scale = 1, x = 0, y = 0, size = { width: 1, height: 1 }
+    const apply = () => (canvas.style.transform = `translate(${x}px, ${y}px) scale(${scale})`)
+
+    const fit = () => {
+      const r = stage.getBoundingClientRect()
+      scale = Math.min(r.width / size.width, r.height / size.height) * 0.92
+      x = (r.width - size.width * scale) / 2
+      y = (r.height - size.height * scale) / 2
+      apply()
+    }
+    const zoomAt = (cx, cy, factor) => {
+      const next = Math.min(12, Math.max(0.1, scale * factor))
+      x = cx - ((cx - x) * next) / scale
+      y = cy - ((cy - y) * next) / scale
+      scale = next
+      apply()
+    }
+    const zoomCenter = (factor) => {
+      const r = stage.getBoundingClientRect()
+      zoomAt(r.width / 2, r.height / 2, factor)
+    }
+
+    const open = (el) => {
+      const svg = el.querySelector('svg')
+      if (!svg) return
+      const box = svg.viewBox.baseVal
+      size = { width: box.width || svg.clientWidth, height: box.height || svg.clientHeight }
+      const copy = svg.cloneNode(true)
+      copy.removeAttribute('style')
+      copy.setAttribute('width', size.width)
+      copy.setAttribute('height', size.height)
+      canvas.replaceChildren(copy)
+      viewer.showModal()
+      fit()
+    }
+    diagrams.forEach((el) => el.addEventListener('click', () => open(el)))
+
+    viewer.addEventListener('click', (e) => {
+      const action = e.target.closest('[data-mv]')?.dataset.mv
+      if (action === 'in') zoomCenter(1.25)
+      else if (action === 'out') zoomCenter(0.8)
+      else if (action === 'fit') fit()
+      else if (action === 'close') viewer.close()
+    })
+    viewer.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') viewer.close()
+      else if (e.key === '+' || e.key === '=') zoomCenter(1.25)
+      else if (e.key === '-') zoomCenter(0.8)
+      else if (e.key === '0') fit()
+    })
+    stage.addEventListener(
+      'wheel',
+      (e) => {
+        e.preventDefault()
+        const r = stage.getBoundingClientRect()
+        zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 1.12 : 1 / 1.12)
+      },
+      { passive: false }
+    )
+    let drag = null
+    stage.addEventListener('pointerdown', (e) => {
+      drag = { px: e.clientX, py: e.clientY, x, y }
+      stage.setPointerCapture(e.pointerId)
+    })
+    stage.addEventListener('pointermove', (e) => {
+      if (!drag) return
+      x = drag.x + e.clientX - drag.px
+      y = drag.y + e.clientY - drag.py
+      apply()
+    })
+    const endDrag = () => (drag = null)
+    stage.addEventListener('pointerup', endDrag)
+    stage.addEventListener('pointercancel', endDrag)
+  }
+</script>
+
+<style is:global>
+  div.mermaid {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    cursor: zoom-in;
+  }
+
+  #mermaid-viewer {
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+  #mermaid-viewer:not([open]) {
+    display: none;
+  }
+  #mermaid-viewer .mv-toolbar {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+    display: flex;
+    gap: 6px;
+  }
+  #mermaid-viewer .mv-toolbar button {
+    min-width: 2.25rem;
+    height: 2.25rem;
+    padding: 0 0.6rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    background: hsl(var(--muted));
+    color: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  #mermaid-viewer .mv-toolbar button:hover {
+    border-color: hsl(var(--primary) / 0.5);
+  }
+  #mermaid-viewer .mv-stage {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+  }
+  #mermaid-viewer .mv-stage:active {
+    cursor: grabbing;
+  }
+  #mermaid-viewer .mv-canvas {
+    width: max-content;
+    transform-origin: 0 0;
+  }
+</style>

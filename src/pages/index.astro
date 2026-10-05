@@ -4,6 +4,7 @@ import { Image } from 'astro:assets'
 import { PostPreview } from 'astro-pure/components/pages'
 import { Button, Card, Icon, Label } from 'astro-pure/user'
 import PageLayout from '@/layouts/BaseLayout.astro'
+import SearchBar from '@/components/home/SearchBar.astro'
 import Section from '@/components/home/Section.astro'
 import SkillLayout from '@/components/home/SkillLayout.astro'
 import { certifications, education, skills, websites } from '@/data/profile'
@@ -53,6 +54,7 @@ if (!images[imagePath])
     </section>
 
     <div id='content' class='animate flex flex-col gap-y-10 md:w-4/5 lg:w-5/6'>
+      <SearchBar />
       <Section title='About'>
         <p class='text-muted-foreground'>
           Software Engineer interested in ML Systems, Multi-agent system, and Cloud Infrastructure.
