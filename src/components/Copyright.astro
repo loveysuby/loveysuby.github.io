@@ -123,7 +123,10 @@ const shares = {
 </style>
 
 <script>
-  import { showToast } from 'astro-pure/utils'
+  // Inlined from astro-pure/utils/toast.ts. Importing the package's utils barrel from a client
+  // script makes Vite pre-bundle it in dev, which fails on its `virtual:config` import.
+  const showToast = (detail: { message: string }) =>
+    document.dispatchEvent(new CustomEvent('toast', { detail }))
 
   // Copy link
   const copyLink = document.getElementById('copy-link')
