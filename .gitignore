@@ -6,5 +6,6 @@ dist
 .obsidian
 private/
 .vscode/
+.claude/
 # local only: contains personal contact details
 portfolio-content.txt

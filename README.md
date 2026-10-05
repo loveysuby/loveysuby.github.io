@@ -27,14 +27,12 @@ description: "One or two sentences."   # up to 160 characters
 publishDate: 2026-07-24
 tags:
   - llm
+category: "AI Infra"         # optional; badge and archive grouping
 draft: false
 ---
 ```
 
 LaTeX (`$...$`, `$$...$$`) and ```` ```mermaid ```` blocks are supported.
-
-To translate a post into the missing languages with Claude Code:
-`/translate-post src/content/blog/ko/<slug>.md`
 
 Optional home page sections (education, certifications, websites, skills) are filled in
 `src/data/profile.ts`; a section appears once its list has an entry.

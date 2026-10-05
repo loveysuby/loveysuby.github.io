@@ -7,6 +7,7 @@ tags:
   - serving
   - vllm
   - gpu
+category: "AI Infra"
 draft: false
 ---
 

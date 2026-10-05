@@ -4,6 +4,7 @@ publishDate: 2025-03-25
 tags:
   - tech
   - programming
+category: "AI Infra"
 draft: false
 description: 기술 관련 내용 요약
 ---

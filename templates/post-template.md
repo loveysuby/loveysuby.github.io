@@ -4,6 +4,7 @@ publishDate: 2025-03-25
 tags:
   - tag1
   - tag2
+category: "AI Infra"
 draft: false
 description: 글 요약을 입력하세요
 ---

@@ -1,53 +1,178 @@
 ---
-import { PostPreview } from 'astro-pure/components/pages'
-import { groupCollectionsByYear } from 'astro-pure/server'
-import { Button } from 'astro-pure/user'
 import PageLayout from '@/layouts/BaseLayout.astro'
-import { getPosts } from '@/utils/posts'
+import { getPosts, type LocalizedPost } from '@/utils/posts'
 
 export const prerender = true
 
-const allPosts = await getPosts()
-const allPostsByDate = allPosts
-const allPostsByYear = groupCollectionsByYear(allPostsByDate)
+const posts = await getPosts()
+
+type Group = { key: string; posts: LocalizedPost[] }
+
+function groupBy(keysOf: (post: LocalizedPost) => string[]): Group[] {
+  const map = new Map<string, LocalizedPost[]>()
+  for (const post of posts)
+    for (const key of keysOf(post)) map.set(key, [...(map.get(key) ?? []), post])
+  return [...map.entries()].map(([key, posts]) => ({ key, posts }))
+}
+
+// publishDate is parsed as UTC midnight; format from the ISO string to avoid timezone shifts.
+const iso = (post: LocalizedPost) => post.data.publishDate.toISOString()
+
+const views = [
+  {
+    id: 'year',
+    label: 'By Year',
+    date: (post: LocalizedPost) => iso(post).slice(5, 10),
+    groups: groupBy((p) => [iso(p).slice(0, 4)]).sort((a, b) => b.key.localeCompare(a.key))
+  },
+  {
+    id: 'category',
+    label: 'By Category',
+    date: (post: LocalizedPost) => iso(post).slice(0, 10),
+    groups: groupBy((p) => (p.data.category ? [p.data.category] : [])).sort(
+      (a, b) => b.posts.length - a.posts.length || a.key.localeCompare(b.key)
+    )
+  },
+  {
+    id: 'tag',
+    label: 'By Tag',
+    date: (post: LocalizedPost) => iso(post).slice(0, 10),
+    groups: groupBy((p) => p.data.tags).sort(
+      (a, b) => b.posts.length - a.posts.length || a.key.localeCompare(b.key)
+    )
+  }
+].filter((view) => view.groups.length > 0)
 
 const meta = {
-  description: 'A list of all the years of creating my posts',
-  title: 'Archives'
+  description: 'All posts, grouped by year, category or tag',
+  title: 'Archive'
 }
 ---
 
 <PageLayout {meta}>
-  <Button title='Back' href='/blog' variant='back' />
-
   <main class='mt-6 lg:mt-10'>
     <div id='content-header' class='animate'>
-      <h1 class='mb-6 text-3xl font-medium'>Archives</h1>
+      <h1 class='mb-6 text-3xl font-medium'>Archive</h1>
     </div>
 
-    {allPosts.length === 0 && <p>No posts yet.</p>}
+    {posts.length === 0 && <p>No posts yet.</p>}
 
-    <section id='content' class='animate' aria-label='Blog post list'>
-      {
-        allPostsByYear.map(([year, posts]) => (
-          <div class='relative mt-20'>
-            <h2
-              class='absolute -start-6 -top-16 z-0 text-9xl font-bold text-transparent opacity-12 dark:opacity-25'
-              style='-webkit-text-stroke-width:2px;-webkit-text-stroke-color:hsl(var(--foreground)/var(--un-text-opacity))'
+    <section id='content' class='animate' aria-label='Post archive'>
+      <div class='archive-tabs grid gap-1 rounded-xl border bg-muted/50 p-1' role='tablist'>
+        {
+          views.map((view, i) => (
+            <button
+              type='button'
+              role='tab'
+              data-view={view.id}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              class='rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors'
             >
-              <samp>{year}</samp>
-            </h2>
-            <p class='px-5 text-muted-foreground'>
-              {posts.length} post{posts.length > 1 && 's'}
-            </p>
-            <ul class='flex flex-col text-start'>
-              {posts.map((p) => (
-                <PostPreview post={p} class='border-0 bg-transparent py-2' />
-              ))}
-            </ul>
+              {view.label}
+            </button>
+          ))
+        }
+      </div>
+
+      {
+        views.map((view, i) => (
+          <div data-panel={view.id} role='tabpanel' hidden={i !== 0} class='mt-6'>
+            {view.groups.map((group, j) => (
+              <details class='archive-group border-b last:border-b-0' open={j === 0}>
+                <summary class='flex cursor-pointer list-none items-center justify-between gap-x-4 py-5'>
+                  <h2 class='text-2xl font-medium'>{group.key}</h2>
+                  <span class='flex items-center gap-x-3 text-sm text-muted-foreground'>
+                    <span class='size-2.5 rounded-full border-2 border-primary' />
+                    {group.posts.length} post{group.posts.length > 1 && 's'}
+                    <svg
+                      class='chevron size-4 transition-transform'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      stroke-width='2'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      aria-hidden='true'
+                    >
+                      <path d='m6 9 6 6 6-6' />
+                    </svg>
+                  </span>
+                </summary>
+                <ul class='flex flex-col pb-5'>
+                  {group.posts.map((post) => (
+                    <li class='group flex items-center gap-x-3 rounded-lg px-2 py-2 transition-colors hover:bg-muted/60 sm:gap-x-4'>
+                      <time
+                        datetime={iso(post).slice(0, 10)}
+                        class='shrink-0 font-mono text-xs text-muted-foreground'
+                      >
+                        {view.date(post)}
+                      </time>
+                      <span class='size-1.5 shrink-0 rounded-full bg-muted-foreground/60 transition-colors group-hover:bg-primary' />
+                      {post.data.category && (
+                        <span class='hidden shrink-0 rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary sm:inline'>
+                          {post.data.category}
+                        </span>
+                      )}
+                      <a
+                        href={`/blog/${post.id}`}
+                        class='min-w-0 flex-1 truncate font-medium no-underline hover:text-primary'
+                      >
+                        {post.data.title}
+                      </a>
+                      <span class='hidden max-w-56 shrink-0 truncate text-xs text-muted-foreground md:block'>
+                        {post.data.tags.map((tag) => (
+                          <a href={`/tags/${tag}`} class='ms-2 no-underline hover:text-primary'>
+                            #{tag}
+                          </a>
+                        ))}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ))}
           </div>
         ))
       }
     </section>
   </main>
 </PageLayout>
+
+<script is:inline>
+  // Tabs. The selected view is kept in the URL hash (#year, #category, #tag).
+  {
+    const tabs = [...document.querySelectorAll('.archive-tabs [data-view]')]
+    const select = (id) => {
+      if (!tabs.some((t) => t.dataset.view === id)) id = tabs[0]?.dataset.view
+      tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.view === id)))
+      document.querySelectorAll('[data-panel]').forEach((p) => (p.hidden = p.dataset.panel !== id))
+    }
+    tabs.forEach((t) =>
+      t.addEventListener('click', () => {
+        history.replaceState(null, '', '#' + t.dataset.view)
+        select(t.dataset.view)
+      })
+    )
+    select(location.hash.slice(1))
+  }
+</script>
+
+<style>
+  .archive-tabs {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  }
+  .archive-tabs [aria-selected='true'] {
+    background-color: hsl(var(--primary) / 0.12);
+    color: hsl(var(--primary));
+    font-weight: 500;
+  }
+  .archive-tabs [aria-selected='false']:hover {
+    color: hsl(var(--foreground));
+  }
+  .archive-group summary::-webkit-details-marker {
+    display: none;
+  }
+  .archive-group[open] .chevron {
+    transform: rotate(180deg);
+  }
+</style>

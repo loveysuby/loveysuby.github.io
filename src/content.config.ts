@@ -34,6 +34,8 @@ const blog = defineCollection({
         .optional(),
       tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
       language: z.string().optional(),
+      /** Shown as a badge and used by the "By Category" view of the archive. */
+      category: z.string().optional(),
       draft: z.boolean().default(false),
       pin: z.boolean().optional(),
       // Special fields
