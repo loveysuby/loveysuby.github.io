@@ -53,6 +53,8 @@ const primaryColor = data.heroImage?.color ?? 'hsl(var(--primary) / var(--un-tex
   highlightColor={primaryColor}
   back='/blog'
   lang={HTML_LANG[lang]}
+  pageLang={lang}
+  {translations}
 >
   <Fragment slot='head'>
     {

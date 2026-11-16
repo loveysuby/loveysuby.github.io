@@ -1,17 +1,96 @@
 ---
-import PageLayout from '@/layouts/CommonPage.astro'
+import { Image } from 'astro:assets'
+import { certifications, education, skills, websites } from '@/data/profile'
 
-const headings = [{ depth: 2, slug: 'contact', text: 'Contact' }]
+import { Card } from 'astro-pure/user'
+import PageLayout from '@/layouts/BaseLayout.astro'
+import Section from '@/components/home/Section.astro'
+import SkillLayout from '@/components/home/SkillLayout.astro'
+import config from '@/site-config'
+
+const imagePath = config.logo.src
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/*.{jpeg,jpg,png,gif,avif,webp}'
+)
+if (!images[imagePath])
+  throw new Error(
+    `"${imagePath}" does not exist in glob: "src/assets/*.{jpeg,jpg,png,gif,avif,webp}"`
+  )
 ---
 
-<PageLayout title='About' {headings}>
-  <p>Software Engineer interested in ML Systems, Multi-agent system, and Cloud Infrastructure.</p>
+<PageLayout meta={{ title: 'About' }}>
+  <main class='flex w-full flex-col items-center'>
+    <section class='animate mb-10 flex flex-col items-center gap-y-7' id='content-header'>
+      <Image
+        src={images[imagePath]()}
+        alt={config.logo.alt || 'Profile'}
+        class='h-28 w-auto rounded-full border p-1'
+        loading='eager'
+        fetchpriority='high'
+      />
+    </section>
 
-  <h2 id='contact'>Contact</h2>
-  <ul>
-    <li>GitHub: <a href='https://github.com/loveysuby' target='_blank'>loveysuby</a></li>
-    <li>
-      LinkedIn: <a href='https://www.linkedin.com/in/hyoseop-song/' target='_blank'>Hyoseop Song</a>
-    </li>
-  </ul>
+    <div id='content' class='animate flex flex-col gap-y-10 md:w-4/5 lg:w-5/6'>
+      <section class='flex flex-col gap-y-4'>
+        <h1 class='text-2xl font-medium'>About</h1>
+        <p class='text-muted-foreground'>
+          Software Engineer interested in ML systems, LLM inference and cloud computing.
+        </p>
+        <ul class='flex flex-col gap-y-1'>
+          <li>
+            GitHub: <a
+              href='https://github.com/loveysuby'
+              target='_blank'
+              class='underline underline-offset-4'>loveysuby</a
+            >
+          </li>
+          <li>
+            LinkedIn: <a
+              href='https://www.linkedin.com/in/hyoseop-song/'
+              target='_blank'
+              class='underline underline-offset-4'>Hyoseop Song</a
+            >
+          </li>
+        </ul>
+      </section>
+      {
+        education.length > 0 && (
+          <Section title='Education'>
+            {education.map((item) => (
+              <Card as={item.href ? 'a' : 'div'} {...item} />
+            ))}
+          </Section>
+        )
+      }
+      {
+        websites.length > 0 && (
+          <Section title='Website List'>
+            <div class='grid grid-cols-1 gap-3 sm:grid-cols-2'>
+              {websites.map((item) => (
+                <Card as='a' target='_blank' {...item} />
+              ))}
+            </div>
+          </Section>
+        )
+      }
+      {
+        certifications.length > 0 && (
+          <Section title='Certifications'>
+            {certifications.map((item) => (
+              <Card as={item.href ? 'a' : 'div'} {...item} />
+            ))}
+          </Section>
+        )
+      }
+      {
+        skills.length > 0 && (
+          <Section title='Skills'>
+            {skills.map((group) => (
+              <SkillLayout title={group.title} skills={group.items} />
+            ))}
+          </Section>
+        )
+      }
+    </div>
+  </main>
 </PageLayout>

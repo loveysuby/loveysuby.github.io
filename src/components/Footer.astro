@@ -1,0 +1,108 @@
+---
+// Copy of astro-pure/components/basic/Footer.astro (astro-pure 1.4.9). The theme's icon set
+// (astro-pure/libs/icons.ts) has no LinkedIn icon and `footer.social` in site.config.ts only
+// accepts icon names from that set, so the social links are defined here instead.
+import { Icon } from 'astro-pure/user'
+import config from 'virtual:config'
+
+const footerConf = config.footer
+
+// ri:linkedin-box-line (Remix Icon, Apache-2.0), the same icon family the theme uses.
+const linkedinIcon =
+  '<path fill="currentColor" d="M4.00098 3H20.001C20.5533 3 21.001 3.44772 21.001 4V20C21.001 20.5523 20.5533 21 20.001 21H4.00098C3.44869 21 3.00098 20.5523 3.00098 20V4C3.00098 3.44772 3.44869 3 4.00098 3ZM5.00098 5V19H19.001V5H5.00098ZM7.50098 9C6.67255 9 6.00098 8.32843 6.00098 7.5C6.00098 6.67157 6.67255 6 7.50098 6C8.3294 6 9.00098 6.67157 9.00098 7.5C9.00098 8.32843 8.3294 9 7.50098 9ZM6.50098 10H8.50098V17.5H6.50098V10ZM12.001 10.4295C12.5854 9.86534 13.2665 9.5 14.001 9.5C16.072 9.5 17.501 11.1789 17.501 13.25V17.5H15.501V13.25C15.501 12.2835 14.7175 11.5 13.751 11.5C12.7845 11.5 12.001 12.2835 12.001 13.25V17.5H10.001V10H12.001V10.4295Z"/>'
+
+/** Shown in this order. An entry has either a theme icon name or raw SVG content (24x24). */
+const social: { label: string; href: string; icon?: 'github' | 'rss'; svg?: string }[] = [
+  { label: 'GitHub', href: 'https://github.com/loveysuby', icon: 'github' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/hyoseop-song/', svg: linkedinIcon },
+  { label: 'RSS', href: '/rss.xml', icon: 'rss' }
+]
+
+const footerLink1 = footerConf.links?.filter(({ pos }) => pos === 1) || []
+---
+
+<footer class='mx-auto mb-5 mt-16 w-full'>
+  <div class='border-t pt-5'>
+    <div class='flex items-center gap-y-3 max-sm:flex-col sm:justify-between sm:gap-y-0'>
+      <div class='flex items-center gap-x-4 gap-y-2 text-muted-foreground max-sm:flex-col'>
+        {
+          /* Position 1 */
+          footerLink1.length > 0 && (
+            <div>
+              {footerLink1.map(({ title, link, style }, index) => (
+                <>
+                  <a href={link} target='_blank' class={style}>
+                    {title}
+                  </a>
+                  {index < footerLink1.length - 1 && <span class='mx-1'>•</span>}
+                </>
+              ))}
+            </div>
+          )
+        }
+        {/* Position 2 */}
+        <div>
+          {config.footer.year}
+          {config.author}
+          {
+            footerConf.links && footerConf.links.length > 0 && (
+              <>
+                &
+                <span>
+                  {footerConf.links
+                    .filter(({ pos }) => pos === 2)
+                    .map(({ title, link, style }) => (
+                      <span>
+                        <a href={link} target='_blank' class={style}>
+                          {title}
+                        </a>
+                      </span>
+                    ))}
+                </span>
+              </>
+            )
+          }
+        </div>
+        {
+          footerConf.credits && (
+            <span>
+              <a href='https://github.com/withastro/astro' target='_blank'>
+                Astro
+              </a>
+              &
+              <a href='https://github.com/cworld1/astro-theme-pure' target='_blank'>
+                Pure
+              </a>
+              theme powered
+            </span>
+          )
+        }
+      </div>
+
+      {/* Social Brands */}
+      <div class='flex items-center gap-x-4'>
+        {
+          social.map(({ label, href, icon, svg }) => (
+            <a {href} rel='me' class='sl-flex' title={label}>
+              <span class='sr-only'>{label}</span>
+              {icon ? (
+                <Icon name={icon} />
+              ) : (
+                // Same size as the theme's <Icon>: 1.5em.
+                <svg aria-hidden='true' viewBox='0 0 24 24' style='width:1.5em;height:1.5em' set:html={svg} />
+              )}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer a {
+    color: hsl(var(--foreground) / var(--un-text-opacity, 1));
+    text-decoration: underline;
+    font-weight: 500;
+  }
+</style>

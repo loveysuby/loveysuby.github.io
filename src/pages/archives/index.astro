@@ -1,14 +1,29 @@
 ---
 import PageLayout from '@/layouts/BaseLayout.astro'
 import PostGroups from '@/components/PostGroups.astro'
-import { byCountThenName, getPosts, groupByTag, groupPosts } from '@/utils/posts'
+import {
+  byCountThenName,
+  getPosts,
+  groupByTag,
+  groupPosts,
+  LANG_KEYS,
+  postsByLang,
+  type LocalizedPost
+} from '@/utils/posts'
 
 export const prerender = true
 
 const posts = await getPosts()
 const year = (date: Date) => date.toISOString().slice(0, 4)
 
-const views = [
+type View = {
+  id: string
+  label: string
+  dateFormat: 'month-day' | 'full'
+  groups: ReturnType<typeof groupPosts>
+}
+
+const buildViews = (posts: LocalizedPost[]): View[] => [
   {
     id: 'year',
     label: 'By Year',
@@ -26,12 +41,12 @@ const views = [
     )
   },
   { id: 'tag', label: 'By Tag', dateFormat: 'full', groups: groupByTag(posts) }
-].filter((view) => view.groups.length > 0) as {
-  id: string
-  label: string
-  dateFormat: 'month-day' | 'full'
-  groups: ReturnType<typeof groupPosts>
-}[]
+]
+
+// Tabs come from the default-language posts. Each tab panel holds one list per language.
+const views = buildViews(posts).filter((view) => view.groups.length > 0)
+const variants = await postsByLang(posts)
+const viewsByLang = LANG_KEYS.map((lang) => ({ lang, views: buildViews(variants[lang]) }))
 
 const meta = {
   description: 'All posts, grouped by year, category or tag',
@@ -67,7 +82,14 @@ const meta = {
       {
         views.map((view, i) => (
           <div data-panel={view.id} role='tabpanel' hidden={i !== 0} class='mt-6'>
-            <PostGroups groups={view.groups} dateFormat={view.dateFormat} />
+            {viewsByLang.map(({ lang, views: localized }) => (
+              <div data-lang-only={lang}>
+                <PostGroups
+                  groups={localized.find((v) => v.id === view.id)?.groups ?? []}
+                  dateFormat={view.dateFormat}
+                />
+              </div>
+            ))}
           </div>
         ))
       }

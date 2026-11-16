@@ -25,6 +25,7 @@ const { current, translations } = Astro.props
           <a
             class='rounded-full border border-border px-3 py-0.5 text-muted-foreground no-underline transition-colors hover:border-primary/40 hover:text-primary'
             href={href}
+            data-lang-option={lang}
             hreflang={HTML_LANG[lang]}
             lang={HTML_LANG[lang]}
           >

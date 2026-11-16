@@ -1,0 +1,119 @@
+---
+// Language menu for the header. The chosen language is stored by the `data-lang-option` click
+// handler in BaseLayout.astro. This component only renders the options and opens the dropdown.
+import { Icon } from 'astro-pure/user'
+
+import { HTML_LANG, LANG_KEYS, LANGS, type Lang } from '@/utils/posts'
+
+interface Props {
+  /** Languages the current page exists in. Without it, choosing a language does not navigate. */
+  translations?: { lang: Lang; href: string }[]
+}
+
+const { translations } = Astro.props
+const hrefOf = (lang: Lang) => translations?.find((t) => t.lang === lang)?.href
+const optionClass = 'block w-full whitespace-nowrap rounded-lg py-1 text-sm sm:px-3 sm:text-start'
+---
+
+<lang-menu class='relative flex items-center'>
+  <button
+    type='button'
+    class='items-center gap-x-1 px-1 py-2 transition-none hover:text-primary sm:px-2'
+    aria-haspopup='true'
+    aria-expanded='false'
+    aria-label='Language'
+  >
+    <Icon name='earth' class='size-5' />
+    {
+      LANG_KEYS.map((lang) => (
+        <span class='text-sm font-medium' data-lang-only={lang}>
+          {lang.toUpperCase()}
+        </span>
+      ))
+    }
+  </button>
+  <ul class='gap-x-3 sm:flex-col sm:gap-y-1 sm:rounded-xl sm:border sm:bg-background sm:p-2 sm:shadow-lg'>
+    {
+      LANG_KEYS.map((lang) => {
+        const href = hrefOf(lang)
+        const missing = !!translations && !href
+        return (
+          <li>
+            {href ? (
+              <a
+                {href}
+                class={`${optionClass} sm:hover:bg-muted`}
+                data-lang-option={lang}
+                hreflang={HTML_LANG[lang]}
+                lang={HTML_LANG[lang]}
+              >
+                {LANGS[lang]}
+              </a>
+            ) : (
+              <button
+                type='button'
+                class={`${optionClass} hover:text-primary sm:hover:bg-muted ${missing ? 'opacity-50' : ''}`}
+                data-lang-option={lang}
+                lang={HTML_LANG[lang]}
+                title={missing ? 'This post is not available in this language' : undefined}
+              >
+                {LANGS[lang]}
+              </button>
+            )}
+          </li>
+        )
+      })
+    }
+  </ul>
+</lang-menu>
+
+<script>
+  class LangMenu extends HTMLElement {
+    connectedCallback() {
+      const button = this.querySelector('button[aria-haspopup]')
+      const setOpen = (open: boolean) => {
+        this.toggleAttribute('data-open', open)
+        button?.setAttribute('aria-expanded', String(open))
+      }
+      button?.addEventListener('click', () => setOpen(!this.hasAttribute('data-open')))
+      this.querySelectorAll('[data-lang-option]').forEach((option) =>
+        option.addEventListener('click', () => setOpen(false))
+      )
+      document.addEventListener('click', (e) => {
+        if (!this.contains(e.target as Node)) setOpen(false)
+      })
+      this.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') setOpen(false)
+      })
+    }
+  }
+  customElements.define('lang-menu', LangMenu)
+</script>
+
+<style>
+  /* Below 640px the header menu is a collapsible panel: show the options in one row there. */
+  lang-menu > button {
+    display: none;
+  }
+  lang-menu > ul {
+    display: flex;
+  }
+  /* From 640px: a button with a dropdown, opened by hover, keyboard focus or click. */
+  @media (min-width: 640px) {
+    lang-menu > button {
+      display: flex;
+    }
+    lang-menu > ul {
+      display: none;
+      position: absolute;
+      inset-inline-end: 0;
+      top: 100%;
+      z-index: 40;
+    }
+    lang-menu:hover > ul,
+    lang-menu:focus-within > ul,
+    lang-menu[data-open] > ul {
+      display: flex;
+    }
+  }
+</style>

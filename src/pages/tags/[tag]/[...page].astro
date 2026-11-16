@@ -7,7 +7,7 @@ import { getUniqueTags } from 'astro-pure/server'
 import { Button } from 'astro-pure/user'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import config from '@/site-config'
-import { getPosts } from '@/utils/posts'
+import { getPosts, LANG_KEYS, postsByLang } from '@/utils/posts'
 
 export const prerender = true
 
@@ -30,6 +30,7 @@ interface Props {
 
 const { page } = Astro.props
 const { tag } = Astro.params
+const variants = await postsByLang(page.data)
 
 const meta = {
   description: `View all posts with the tag - ${tag}`,
@@ -63,9 +64,15 @@ const paginationProps = {
     </div>
 
     <section id='content' class='animate' aria-label='Blog post list'>
-      <ul class='flex flex-col gap-y-3 text-start'>
-        {page.data.map((post) => <PostPreview {post} detailed />)}
-      </ul>
+      {
+        LANG_KEYS.map((lang) => (
+          <ul class='flex flex-col gap-y-3 text-start' data-lang-only={lang}>
+            {variants[lang].map((post) => (
+              <PostPreview {post} detailed />
+            ))}
+          </ul>
+        ))
+      }
       <Paginator {...paginationProps} />
     </section>
   </main>

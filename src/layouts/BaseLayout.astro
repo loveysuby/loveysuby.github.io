@@ -1,7 +1,10 @@
 ---
-import { Footer, Header, ThemeProvider } from 'astro-pure/components/basic'
+import { ThemeProvider } from 'astro-pure/components/basic'
 import type { SiteMeta } from 'astro-pure/types'
 import BaseHead from '@/components/BaseHead.astro'
+import Footer from '@/components/Footer.astro'
+import Header from '@/components/Header.astro'
+import { DEFAULT_LANG, LANG_KEYS, type Lang } from '@/utils/posts'
 import config from '@/site-config'
 
 // Import the global.css file here so that it is included on
@@ -14,18 +17,70 @@ interface Props {
   highlightColor?: string
   /** Value for `<html lang>`. Defaults to the site locale. */
   lang?: string
+  /** Set on pages written in one language (posts). The language menu then shows this language. */
+  pageLang?: Lang
+  /** Other languages of this page. The language menu links to them. */
+  translations?: { lang: Lang; href: string }[]
 }
 
 const {
   meta: { articleDate, description = config.description, ogImage, title },
   highlightColor = 'hsl(var(--primary))',
   lang = config.locale.lang,
+  pageLang,
+  translations,
   ...props
 } = Astro.props
+
+// `<html data-pref-lang>` holds the language the reader chose. Elements with `data-lang-only`
+// are hidden unless their value equals it.
+const langCss = LANG_KEYS.map(
+  (l) =>
+    `html[data-pref-lang='${l}'] [data-lang-only]:not([data-lang-only='${l}']){display:none!important}` +
+    `html[data-pref-lang='${l}'] lang-menu [data-lang-option='${l}']{color:hsl(var(--primary));font-weight:500}`
+).join('')
 ---
 
-<html {lang}>
+<html {lang} data-pref-lang={pageLang ?? DEFAULT_LANG} data-page-lang={pageLang}>
   <head>
+    <style is:inline set:html={langCss}></style>
+    <script is:inline define:vars={{ langs: LANG_KEYS }}>
+      // Reader's language, kept in localStorage['lang']. Runs in <head> so that lists are shown
+      // in the right language on first paint.
+      const root = document.documentElement
+      const pageLang = root.dataset.pageLang
+      const read = () => {
+        try {
+          const value = localStorage.getItem('lang')
+          return langs.includes(value) ? value : null
+        } catch {
+          return null
+        }
+      }
+      const write = (value) => {
+        try {
+          localStorage.setItem('lang', value)
+        } catch {}
+      }
+      const apply = () => {
+        const pref = read()
+        // A post page is shown in its own language. It sets the preference only if none exists.
+        if (pageLang) {
+          if (!pref) write(pageLang)
+        } else if (pref) root.dataset.prefLang = pref
+      }
+      apply()
+      // Prerendered (speculation rules) and back/forward-cached pages ran apply() earlier.
+      document.addEventListener('prerenderingchange', apply)
+      window.addEventListener('pageshow', apply)
+      // Any element with `data-lang-option` selects a language. Links navigate afterwards.
+      document.addEventListener('click', (e) => {
+        const el = e.target instanceof Element && e.target.closest('[data-lang-option]')
+        if (!el) return
+        write(el.dataset.langOption)
+        if (el.tagName !== 'A') apply()
+      })
+    </script>
     <BaseHead {articleDate} {description} {ogImage} {title} />
     <ThemeProvider />
     <slot name='head' />
@@ -45,7 +100,7 @@ const {
       id='main-container'
       class='w-full max-w-[70rem] min-h-[100dvh] flex flex-col justify-between'
     >
-      <Header />
+      <Header {translations} />
       <div class='flex-1 w-full'>
         <slot />
       </div>

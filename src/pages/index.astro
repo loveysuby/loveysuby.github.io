@@ -1,118 +1,19 @@
 ---
-import { Image } from 'astro:assets'
-
-import { PostPreview } from 'astro-pure/components/pages'
-import { Button, Card, Icon, Label } from 'astro-pure/user'
+import { getUniqueTagsWithCount } from 'astro-pure/server'
 import PageLayout from '@/layouts/BaseLayout.astro'
-import SearchBar from '@/components/home/SearchBar.astro'
-import Section from '@/components/home/Section.astro'
-import SkillLayout from '@/components/home/SkillLayout.astro'
-import { certifications, education, skills, websites } from '@/data/profile'
-import config from '@/site-config'
+import BlogList from '@/components/BlogList.astro'
 import { getPosts } from '@/utils/posts'
+import config from '@/site-config'
 
-const MAX_POSTS = 10
-const allPostsByDate = (await getPosts()).slice(0, MAX_POSTS)
-
-const imagePath = config.logo.src
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/*.{jpeg,jpg,png,gif,avif,webp}'
-)
-if (!images[imagePath])
-  throw new Error(
-    `"${imagePath}" does not exist in glob: "src/assets/*.{jpeg,jpg,png,gif,avif,webp}"`
-  )
+// `/` shows the same list as `/blog` (page 1).
+const collections = await getPosts()
+const uniqueTags = getUniqueTagsWithCount(collections).map(([tag]) => tag)
+// 10 is Astro's paginate() default when blogPageSize is unset.
+const pageSize = config.content.blogPageSize ?? 10
+const posts = collections.slice(0, pageSize)
+const nextUrl = collections.length > pageSize ? '/blog/2' : undefined
 ---
 
 <PageLayout meta={{ title: config.title }}>
-  <main class='flex w-full flex-col items-center'>
-    <section class='animate mb-10 flex flex-col items-center gap-y-7' id='content-header'>
-      <Image
-        src={images[imagePath]()}
-        alt={config.logo.alt || 'Profile'}
-        class='h-28 w-auto rounded-full border p-1'
-        loading='eager'
-        fetchpriority='high'
-      />
-
-      <div class='flex flex-col items-center gap-y-4'>
-        <h1 class='text-3xl font-medium'>{config.author}</h1>
-        <div class='flex flex-wrap justify-center gap-x-7 gap-y-3'>
-          <Label title='GitHub' as='a' href='https://github.com/loveysuby' target='_blank'>
-            <Icon name='github' class='size-5' slot='icon' />
-          </Label>
-          <Label
-            title='LinkedIn'
-            as='a'
-            href='https://www.linkedin.com/in/hyoseop-song/'
-            target='_blank'
-          >
-            <Icon name='link' class='size-5' slot='icon' />
-          </Label>
-        </div>
-      </div>
-    </section>
-
-    <div id='content' class='animate flex flex-col gap-y-10 md:w-4/5 lg:w-5/6'>
-      <SearchBar />
-      <Section title='About'>
-        <p class='text-muted-foreground'>
-          Software Engineer interested in ML Systems, Multi-agent system, and Cloud Infrastructure.
-        </p>
-        <Button title='More about me' class='w-fit self-end' href='/about' variant='ahead' />
-      </Section>
-      {
-        allPostsByDate.length > 0 && (
-          <Section title='Posts'>
-            <ul class='flex flex-col gap-y-1.5 sm:gap-y-2'>
-              {allPostsByDate.map((p) => (
-                <li class='flex flex-col gap-x-2 sm:flex-row'>
-                  <PostPreview post={p} />
-                </li>
-              ))}
-            </ul>
-            <Button title='More posts' class='w-fit self-end' href='/blog' variant='ahead' />
-          </Section>
-        )
-      }
-      {
-        education.length > 0 && (
-          <Section title='Education'>
-            {education.map((item) => (
-              <Card as={item.href ? 'a' : 'div'} {...item} />
-            ))}
-          </Section>
-        )
-      }
-      {
-        websites.length > 0 && (
-          <Section title='Website List'>
-            <div class='grid grid-cols-1 gap-3 sm:grid-cols-2'>
-              {websites.map((item) => (
-                <Card as='a' target='_blank' {...item} />
-              ))}
-            </div>
-          </Section>
-        )
-      }
-      {
-        certifications.length > 0 && (
-          <Section title='Certifications'>
-            {certifications.map((item) => (
-              <Card as={item.href ? 'a' : 'div'} {...item} />
-            ))}
-          </Section>
-        )
-      }
-      {
-        skills.length > 0 && (
-          <Section title='Skills'>
-            {skills.map((group) => (
-              <SkillLayout title={group.title} skills={group.items} />
-            ))}
-          </Section>
-        )
-      }
-    </div>
-  </main>
+  <BlogList {posts} {uniqueTags} {nextUrl} />
 </PageLayout>

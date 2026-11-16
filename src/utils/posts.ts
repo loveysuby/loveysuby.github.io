@@ -8,6 +8,7 @@ import { getBlogCollection, sortMDByDate } from 'astro-pure/server'
  */
 export const LANGS = { en: 'English', ko: '한국어', zh: '中文', ja: '日本語' } as const
 export type Lang = keyof typeof LANGS
+export const LANG_KEYS = Object.keys(LANGS) as Lang[]
 export const DEFAULT_LANG: Lang = 'en'
 /** Values for `<html lang>` and `hreflang`. */
 export const HTML_LANG: Record<Lang, string> = { en: 'en', ko: 'ko', zh: 'zh-Hans', ja: 'ja' }
@@ -57,6 +58,23 @@ export async function getPosts(lang: Lang = DEFAULT_LANG): Promise<LocalizedPost
       versions[0]
   )
   return sortMDByDate(picked) as LocalizedPost[]
+}
+
+/**
+ * The given posts in every language, in the given order. A post without a translation in a
+ * language is kept as it is. List pages render one list per language and the reader's language
+ * (see the `data-pref-lang` script in BaseLayout.astro) decides which one is shown.
+ */
+export async function postsByLang(posts: Post[]): Promise<Record<Lang, LocalizedPost[]>> {
+  const all = await getAllPosts()
+  const pick = (post: Post, lang: Lang) => {
+    // `post.id` is the URL id here (`<slug>` or `<lang>/<slug>`), which parseId also accepts.
+    const { slug } = parseId(post.id)
+    return all.find((p) => p.slug === slug && p.lang === lang) ?? (post as LocalizedPost)
+  }
+  return Object.fromEntries(
+    LANG_KEYS.map((lang) => [lang, posts.map((post) => pick(post, lang))])
+  ) as Record<Lang, LocalizedPost[]>
 }
 
 /** Available languages of one post, in the order of `LANGS`. */

@@ -6,12 +6,15 @@ import { cn } from 'astro-pure/utils'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import Mermaid from '@/components/Mermaid.astro'
 import { integ } from '@/site-config'
+import type { Lang } from '@/utils/posts'
 
 interface Props {
   meta: SiteMeta
   highlightColor?: string
   back?: string
   lang?: string
+  pageLang?: Lang
+  translations?: { lang: Lang; href: string }[]
 }
 
 const { meta, highlightColor, back = '/', ...props } = Astro.props

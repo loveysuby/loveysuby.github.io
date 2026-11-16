@@ -3,11 +3,11 @@ import type { Config, IntegrationUserConfig, ThemeUserConfig } from 'astro-pure/
 export const theme: ThemeUserConfig = {
   // [Basic]
   /** Title for your website. Will be used in metadata and as browser tab title. */
-  title: 'Hyoseop Song',
+  title: "Hyoseop Song's Blog",
   /** Will be used in index page & copyright declaration */
   author: 'Hyoseop Song',
   /** Description metadata for your website. Can be used in page metadata. */
-  description: 'Notes on ML systems, LLM serving, and AI infrastructure.',
+  description: "Hyoseop Song's Blog",
   /** The default favicon for your site which should be a path to an image in the `public/` directory. */
   favicon: '/favicon/favicon.ico',
   /** The default social card image for your site which should be a path to an image in the `public/` directory. */
@@ -41,7 +41,7 @@ export const theme: ThemeUserConfig = {
   /** Configure the header of your site. */
   header: {
     menu: [
-      { title: 'Blog', link: '/blog' },
+      { title: 'Posts', link: '/blog' },
       { title: 'Archive', link: '/archives' },
       { title: 'Tags', link: '/tags' },
       { title: 'About', link: '/about' }
@@ -54,11 +54,9 @@ export const theme: ThemeUserConfig = {
     links: [],
     /** Enable displaying a “Astro & Pure theme powered” link in your site’s footer. */
     credits: true,
-    /** Optional details about the social media accounts for this site. */
-    social: [
-      { icon: 'github', label: 'GitHub', href: 'https://github.com/loveysuby' },
-      { icon: 'rss', label: 'RSS', href: '/rss.xml' }
-    ]
+    // Social links (GitHub, LinkedIn, RSS) are defined in src/components/Footer.astro: the theme
+    // schema only accepts its own icon names here and it has no LinkedIn icon.
+    social: []
   },
 
   // [Content]

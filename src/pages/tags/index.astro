@@ -1,6 +1,6 @@
 ---
 import { getUniqueTagsWithCount } from 'astro-pure/server'
-import { getPosts, groupByTag } from '@/utils/posts'
+import { getPosts, groupByTag, LANG_KEYS, postsByLang } from '@/utils/posts'
 import { Button } from 'astro-pure/user'
 import { cn } from 'astro-pure/utils'
 import PageLayout from '@/layouts/BaseLayout.astro'
@@ -9,7 +9,7 @@ import PostGroups from '@/components/PostGroups.astro'
 const allPosts = await getPosts()
 // Same order as the groups below: most posts first, then alphabetical.
 const allTags = getUniqueTagsWithCount(allPosts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-const tagGroups = groupByTag(allPosts)
+const variants = await postsByLang(allPosts)
 
 const meta = {
   description: "A list of all the topics I've written about in my posts",
@@ -50,7 +50,13 @@ const meta = {
       }
 
       <section class='mt-8' aria-label='Posts by tag'>
-        <PostGroups groups={tagGroups} />
+        {
+          LANG_KEYS.map((lang) => (
+            <div data-lang-only={lang}>
+              <PostGroups groups={groupByTag(variants[lang])} />
+            </div>
+          ))
+        }
       </section>
     </div>
   </main>
